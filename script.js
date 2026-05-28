@@ -102,6 +102,30 @@
     document.body.style.overflow = 'auto';
     initParticles();
     initScrollObserver();
+    startMusicFadeIn();
+  }
+
+  function startMusicFadeIn() {
+    bgMusic.volume = 0;
+    bgMusic.play().then(() => {
+      musicPlaying = true;
+      audioToggle.classList.add('playing');
+      
+      // Fade in smoothly over 2s
+      let vol = 0;
+      const targetVol = 0.4;
+      const fadeInInterval = setInterval(() => {
+        vol += 0.02;
+        if (vol >= targetVol) {
+          bgMusic.volume = targetVol;
+          clearInterval(fadeInInterval);
+        } else {
+          bgMusic.volume = vol;
+        }
+      }, 100);
+    }).catch((e) => {
+      console.log("Autoplay blocked or user gesture required:", e);
+    });
   }
 
   /* ============================================
@@ -273,24 +297,25 @@
      ============================================ */
   btnPlay.addEventListener('click', () => {
     // Cinematic fade out
-    document.body.style.transition = 'opacity 1s ease';
+    document.body.style.transition = 'opacity 1.5s ease';
     document.body.style.opacity = '0';
-    if (musicPlaying) {
-      // Fade out music smoothly
-      let vol = bgMusic.volume;
-      const fadeInterval = setInterval(() => {
-        vol -= 0.05;
-        if (vol <= 0) {
-          clearInterval(fadeInterval);
-          bgMusic.pause();
-        } else {
-          bgMusic.volume = vol;
-        }
-      }, 50);
-    }
+    
+    // Smooth music fade out over 1.5 seconds
+    let vol = bgMusic.volume;
+    const fadeInterval = setInterval(() => {
+      vol -= 0.02;
+      if (vol <= 0) {
+        clearInterval(fadeInterval);
+        bgMusic.volume = 0;
+        bgMusic.pause();
+      } else {
+        bgMusic.volume = vol;
+      }
+    }, 75);
+
     setTimeout(() => {
       window.location.href = 'birthday.html';
-    }, 1000);
+    }, 1500);
   });
 
   /* ============================================
@@ -320,7 +345,7 @@
       bgMusic.pause();
       audioToggle.classList.remove('playing');
     } else {
-      bgMusic.volume = 0.35;
+      bgMusic.volume = 0.4;
       bgMusic.play().catch(() => {});
       audioToggle.classList.add('playing');
     }
