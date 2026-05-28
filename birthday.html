@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday — A Fairytale</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Inter:wght@300;400&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      text-align: center;
+      padding: 20px;
+    }
+    .birthday-container {
+      opacity: 0;
+      animation: fadeUp 1.5s cubic-bezier(.25,.46,.45,.94) 0.3s forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(40px); }
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, #d4a853 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    p {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: #b3b3b3;
+      font-style: italic;
+      max-width: 500px;
+      line-height: 1.8;
+    }
+    .heart {
+      font-size: 3rem;
+      margin-top: 30px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+    .back-link {
+      margin-top: 40px;
+      color: #E50914;
+      font-size: 0.85rem;
+      text-decoration: none;
+      border: 1px solid rgba(229,9,20,0.3);
+      padding: 10px 24px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    .back-link:hover {
+      background: rgba(229,9,20,0.15);
+      border-color: #E50914;
+    }
+  </style>
+</head>
+<body>
+  <div class="birthday-container">
+    <h1>Happy Birthday</h1>
+    <p>
+      This page is the next chapter of your fairytale.<br/>
+      Fill it with whatever makes her smile.
+    </p>
+    <div class="heart">❤️</div>
+    <a class="back-link" href="index.html">← Back to Movie</a>
+  </div>
+</body>
+</html>

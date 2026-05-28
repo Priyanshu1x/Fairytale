@@ -1,0 +1,1120 @@
+/* ============================================
+   A FAIRYTALE — Cinematic Birthday Surprise
+   Netflix-Style OTT Landing Page
+   ============================================ */
+
+/* ---------- Google Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+/* ---------- CSS Custom Properties ---------- */
+:root {
+  --bg-primary: #000000;
+  --bg-secondary: #141414;
+  --bg-card: #1a1a1a;
+  --netflix-red: #E50914;
+  --netflix-red-dark: #B20710;
+  --accent-gold: #d4a853;
+  --accent-warm: #e8a87c;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-muted: #737373;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --shadow-glow: 0 0 40px rgba(229, 9, 20, 0.15);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --transition-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ---------- Reset & Base ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Hide scrollbar for cleaner feel */
+body::-webkit-scrollbar {
+  width: 6px;
+}
+body::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+body::-webkit-scrollbar-thumb {
+  background: rgba(229, 9, 20, 0.4);
+  border-radius: 3px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+/* ============================================
+   CLICK TO START SCREEN
+   ============================================ */
+#start-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 11000;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.8s ease;
+}
+
+#start-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.start-content {
+  text-align: center;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+.start-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #fff;
+  margin: 0 auto 28px;
+  animation: startPulse 2s ease-in-out infinite;
+  background: rgba(229, 9, 20, 0.1);
+  padding-left: 6px;
+}
+
+@keyframes startPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.4);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 40px 10px rgba(229, 9, 20, 0.15);
+  }
+}
+
+.start-text {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.start-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+/* ============================================
+   NETFLIX INTRO OVERLAY
+   ============================================ */
+#intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1.2s ease;
+}
+
+#intro-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#intro-overlay video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+/* ============================================
+   PAGE LOAD TRANSITION
+   ============================================ */
+.page-content {
+  opacity: 0;
+  transition: opacity 1.5s ease 0.3s;
+}
+
+.page-content.visible {
+  opacity: 1;
+}
+
+/* ============================================
+   NAVIGATION BAR
+   ============================================ */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 18px 4%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  transform: translateY(-100%);
+  animation: navSlideDown 1s var(--transition-smooth) 0.5s forwards;
+}
+
+@keyframes navSlideDown {
+  to { transform: translateY(0); }
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--netflix-red);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.nav-links li a {
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  position: relative;
+}
+
+.nav-links li a:hover {
+  color: var(--text-primary);
+  text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+.nav-links li a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--netflix-red);
+  transition: width 0.3s ease;
+}
+
+.nav-links li a:hover::after {
+  width: 100%;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--text-primary);
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.nav-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, var(--netflix-red), var(--accent-gold));
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.nav-avatar:hover {
+  box-shadow: 0 0 12px rgba(229, 9, 20, 0.5);
+}
+
+/* Mobile Nav Toggle */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 1px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 12vh;
+}
+
+/* Background image with Ken Burns zoom */
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  animation: kenBurns 30s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes kenBurns {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.12) translate(-1%, -1%); }
+}
+
+/* Cinematic overlays */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-overlay--gradient {
+  background: linear-gradient(
+    77deg,
+    rgba(0,0,0,0.9) 0%,
+    rgba(0,0,0,0.6) 30%,
+    rgba(0,0,0,0.15) 60%,
+    rgba(0,0,0,0.3) 100%
+  );
+}
+
+.hero-overlay--bottom {
+  background: linear-gradient(
+    0deg,
+    var(--bg-primary) 0%,
+    rgba(0,0,0,0.7) 15%,
+    transparent 40%
+  );
+}
+
+.hero-overlay--vignette {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0,0,0,0.6) 100%
+  );
+}
+
+/* Film Grain */
+.film-grain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  opacity: 0.04;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  animation: grainShift 0.5s steps(5) infinite;
+}
+
+@keyframes grainShift {
+  0%, 100% { transform: translate(0,0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(1px, -1px); }
+  60% { transform: translate(-1px, 2px); }
+  80% { transform: translate(2px, -2px); }
+}
+
+/* Floating particles canvas */
+#particles-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Hero content */
+.hero-content {
+  position: relative;
+  z-index: 5;
+  padding: 0 4%;
+  max-width: 650px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideUp 0.8s var(--transition-smooth) 1s forwards;
+}
+
+.hero-badge-logo {
+  height: 20px;
+  width: auto;
+  object-fit: contain;
+}
+
+.hero-badge-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeSlideUp 1s var(--transition-smooth) 1.2s forwards;
+  text-shadow: 0 4px 30px rgba(0,0,0,0.7);
+}
+
+.hero-title .title-highlight {
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: var(--accent-warm);
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideUp 0.8s var(--transition-smooth) 1.5s forwards;
+  text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+}
+
+.hero-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideUp 0.8s var(--transition-smooth) 1.7s forwards;
+}
+
+.hero-tags .tag-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--netflix-red);
+}
+
+/* Netflix-style metadata row */
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideUp 0.8s var(--transition-smooth) 1.8s forwards;
+}
+
+.meta-match {
+  color: #46d369;
+  font-weight: 700;
+}
+
+.meta-year {
+  color: var(--text-secondary);
+}
+
+.meta-rating {
+  color: var(--text-secondary);
+  border: 1px solid rgba(255,255,255,0.35);
+  padding: 1px 7px;
+  font-size: 0.76rem;
+  border-radius: 3px;
+  line-height: 1.4;
+}
+
+.meta-seasons {
+  color: var(--text-secondary);
+}
+
+.hero-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+  max-width: 500px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideUp 0.8s var(--transition-smooth) 2s forwards;
+}
+
+/* Buttons */
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeSlideUp 1s var(--transition-smooth) 2.1s forwards;
+}
+
+.btn-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 32px;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-size: 1.05rem;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: all 0.35s var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-play::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(229, 9, 20, 0.15);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.btn-play:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 30px rgba(255,255,255,0.25), 0 0 60px rgba(229, 9, 20, 0.15);
+}
+
+.btn-play:hover::before {
+  width: 350px;
+  height: 350px;
+}
+
+.btn-play:active {
+  transform: scale(0.97);
+}
+
+.btn-play svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+  position: relative;
+  z-index: 1;
+}
+
+.btn-play span {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.35s var(--transition-smooth);
+}
+
+.btn-info:hover {
+  background: rgba(255,255,255,0.15);
+  transform: scale(1.04);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.btn-info svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* ============================================
+   AUDIO CONTROLLER
+   ============================================ */
+.audio-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0;
+  animation: fadeIn 0.8s ease 3s forwards;
+}
+
+.audio-toggle:hover {
+  background: rgba(229, 9, 20, 0.2);
+  border-color: rgba(229, 9, 20, 0.3);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.2);
+}
+
+.audio-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--text-primary);
+}
+
+.audio-toggle .bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 16px;
+}
+
+.audio-toggle .bars span {
+  display: block;
+  width: 3px;
+  background: var(--text-primary);
+  border-radius: 1px;
+  transition: height 0.3s ease;
+}
+
+.audio-toggle.playing .bars span {
+  animation: audioBar 0.8s ease-in-out infinite alternate;
+}
+
+.audio-toggle.playing .bars span:nth-child(1) { height: 6px; animation-delay: 0s; }
+.audio-toggle.playing .bars span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+.audio-toggle.playing .bars span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+.audio-toggle.playing .bars span:nth-child(4) { height: 14px; animation-delay: 0.1s; }
+
+.audio-toggle:not(.playing) .bars span {
+  height: 3px !important;
+  animation: none;
+}
+
+@keyframes audioBar {
+  0% { height: 4px; }
+  100% { height: 16px; }
+}
+
+/* ============================================
+   TRENDING MEMORIES SECTION
+   ============================================ */
+.memories-section {
+  position: relative;
+  z-index: 10;
+  padding: 20px 4% 80px;
+  margin-top: -80px;
+}
+
+.memories-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s var(--transition-smooth);
+}
+
+.memories-title.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.memories-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 10px 0 30px;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.memories-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Memory cards */
+.memory-card {
+  flex: 0 0 auto;
+  width: 240px;
+  height: 340px;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.4s var(--transition-smooth);
+  opacity: 0;
+  transform: translateY(25px);
+}
+
+.memory-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.memory-card:hover {
+  transform: scale(1.08) translateY(-8px);
+  z-index: 20;
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.7),
+    0 0 30px rgba(229, 9, 20, 0.12);
+}
+
+.memory-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.memory-card:hover img {
+  transform: scale(1.08);
+}
+
+.memory-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px 16px 16px;
+  background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.35s ease;
+}
+
+.memory-card:hover .memory-card-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.memory-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.memory-card-tag {
+  font-size: 0.72rem;
+  color: var(--netflix-red);
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Hover glow ring */
+.memory-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.memory-card:hover::after {
+  border-color: rgba(229, 9, 20, 0.35);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  padding: 40px 4%;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer span {
+  color: var(--netflix-red);
+}
+
+/* ============================================
+   SHARED ANIMATIONS
+   ============================================ */
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   MORE INFO MODAL
+   ============================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 540px;
+  padding: 40px 36px;
+  position: relative;
+  transform: scale(0.9) translateY(30px);
+  transition: transform 0.45s var(--transition-bounce);
+}
+
+.modal-overlay.active .modal-box {
+  transform: scale(1) translateY(0);
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-close:hover {
+  background: rgba(229, 9, 20, 0.3);
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.modal-subtitle {
+  font-style: italic;
+  color: var(--accent-warm);
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.modal-detail {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.modal-detail strong {
+  color: var(--text-primary);
+}
+
+/* ============================================
+   RESPONSIVE — TABLET
+   ============================================ */
+@media (max-width: 1024px) {
+  .hero-content {
+    max-width: 520px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .memory-card {
+    width: 200px;
+    height: 290px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 14px 5%;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 20px 5%;
+    gap: 16px;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-right .nav-icon.search-icon {
+    display: none;
+  }
+
+  .hero {
+    align-items: center;
+    padding-bottom: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    padding: 0 6%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-bg-img {
+    object-position: center center;
+  }
+
+  .hero-overlay--gradient {
+    background: linear-gradient(
+      0deg,
+      rgba(0,0,0,0.92) 0%,
+      rgba(0,0,0,0.7) 35%,
+      rgba(0,0,0,0.3) 65%,
+      rgba(0,0,0,0.5) 100%
+    );
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-tags {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta {
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 0.82rem;
+  }
+
+  .hero-description {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .btn-play,
+  .btn-info {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+  }
+
+  .memories-section {
+    padding: 10px 5% 60px;
+    margin-top: -40px;
+  }
+
+  .memories-title {
+    font-size: 1.15rem;
+  }
+
+  .memory-card {
+    width: 150px;
+    height: 220px;
+  }
+
+  .memory-card-title {
+    font-size: 0.82rem;
+  }
+
+  .audio-toggle {
+    bottom: 20px;
+    right: 20px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .modal-box {
+    padding: 30px 24px;
+    width: 92%;
+  }
+}
+
+/* ============================================
+   RESPONSIVE — SMALL MOBILE
+   ============================================ */
+@media (max-width: 420px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .nav-logo {
+    font-size: 1.3rem;
+  }
+
+  .memory-card {
+    width: 130px;
+    height: 195px;
+  }
+}

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A Fairytale — A cinematic birthday surprise crafted with love." />
+  <title>A Fairytale — Streaming Now</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>" />
+</head>
+<body>
+
+  <!-- ========== CLICK TO START SCREEN ========== -->
+  <div id="start-screen">
+    <div class="start-content">
+      <div class="start-icon">▶</div>
+      <p class="start-text">Click to Experience</p>
+      <p class="start-sub">Use headphones for the best experience</p>
+    </div>
+  </div>
+
+  <!-- ========== NETFLIX INTRO VIDEO OVERLAY ========== -->
+  <div id="intro-overlay" style="display:none;">
+    <video id="intro-video" playsinline preload="auto">
+      <source src="assets/netflix-intro.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- Netflix Intro Audio -->
+  <audio id="intro-audio" preload="auto">
+    <source src="assets/netflix-intro.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- ========== MAIN PAGE CONTENT ========== -->
+  <div class="page-content" id="page-content">
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-left">
+        <div class="nav-logo">Netflix</div>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#" data-active>Home</a></li>
+          <li><a href="#">Movies</a></li>
+          <li><a href="#">Memories</a></li>
+          <li><a href="#">My List</a></li>
+        </ul>
+      </div>
+      <div class="nav-right">
+        <!-- Search Icon -->
+        <svg class="nav-icon search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <!-- Bell Icon -->
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <!-- Avatar -->
+        <div class="nav-avatar" title="Profile"></div>
+        <!-- Mobile Hamburger -->
+        <div class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="hero">
+      <!-- Background Image -->
+      <div class="hero-bg" id="hero-bg">
+        <img
+          class="hero-bg-img"
+          src="assets/hero-bg.png"
+          alt="A Fairytale — Hero"
+          loading="eager"
+        />
+      </div>
+
+      <!-- Cinematic Overlays -->
+      <div class="hero-overlay hero-overlay--gradient"></div>
+      <div class="hero-overlay hero-overlay--bottom"></div>
+      <div class="hero-overlay hero-overlay--vignette"></div>
+      <div class="film-grain"></div>
+
+      <!-- Floating Particles -->
+      <canvas id="particles-canvas"></canvas>
+
+      <!-- Hero Text Content -->
+      <div class="hero-content">
+        <div class="hero-badge">
+          <img class="hero-badge-logo" src="assets/netflix-logo.png" alt="Netflix" />
+          <span class="hero-badge-text">Netflix Original</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-highlight">A Fairytale</span>
+        </h1>
+
+        <p class="hero-subtitle">"A story written by destiny."</p>
+
+        <div class="hero-tags">
+          <span>Romance</span>
+          <span class="tag-dot"></span>
+          <span>Fantasy</span>
+          <span class="tag-dot"></span>
+          <span>Birthday Special</span>
+          <span class="tag-dot"></span>
+          <span>2026</span>
+        </div>
+
+        <div class="hero-meta">
+          <span class="meta-match">99% Match</span>
+          <span class="meta-year">2026</span>
+          <span class="meta-rating">13+</span>
+          <span class="meta-seasons">5 Seasons</span>
+        </div>
+
+        <p class="hero-description">
+          Some stories are not watched.<br />
+          They are felt.
+        </p>
+
+        <div class="hero-buttons">
+          <button class="btn-play" id="btn-play" aria-label="Play">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <span>Play</span>
+          </button>
+          <button class="btn-info" id="btn-info" aria-label="More Info">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>More Info</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TRENDING MEMORIES ===== -->
+    <section class="memories-section" id="memories-section">
+      <h2 class="memories-title" id="memories-title">Trending Memories</h2>
+      <div class="memories-row" id="memories-row">
+
+        <div class="memory-card" data-delay="0">
+          <img src="assets/card1.png" alt="The Beginning" loading="lazy" />
+          <div class="memory-card-overlay">
+            <div class="memory-card-title">The Beginning</div>
+            <div class="memory-card-tag">Chapter 1</div>
+          </div>
+        </div>
+
+        <div class="memory-card" data-delay="100">
+          <img src="assets/card2.png" alt="Her Smile" loading="lazy" />
+          <div class="memory-card-overlay">
+            <div class="memory-card-title">Her Smile</div>
+            <div class="memory-card-tag">Chapter 2</div>
+          </div>
+        </div>
+
+        <div class="memory-card" data-delay="200">
+          <img src="assets/card3.png" alt="The Chaos" loading="lazy" />
+          <div class="memory-card-overlay">
+            <div class="memory-card-title">The Chaos</div>
+            <div class="memory-card-tag">Chapter 3</div>
+          </div>
+        </div>
+
+        <div class="memory-card" data-delay="300">
+          <img src="assets/card4.png" alt="Late Night Talks" loading="lazy" />
+          <div class="memory-card-overlay">
+            <div class="memory-card-title">Late Night Talks</div>
+            <div class="memory-card-tag">Chapter 4</div>
+          </div>
+        </div>
+
+        <div class="memory-card" data-delay="400">
+          <img src="assets/card5.png" alt="Favourite Human" loading="lazy" />
+          <div class="memory-card-overlay">
+            <div class="memory-card-title">Favourite Human</div>
+            <div class="memory-card-tag">Chapter 5</div>
+          </div>
+        </div>
+
+        <div class="memory-card" data-delay="500">
+          <img src="assets/card6.png" alt="Forever Scene" loading="lazy" />
+          <div class="memory-card-overlay">
+            <div class="memory-card-title">Forever Scene</div>
+            <div class="memory-card-tag">Final Chapter</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+      <p>Made with <span>♥</span> — A Fairytale &copy; 2026</p>
+    </footer>
+
+  </div>
+
+  <!-- ===== AUDIO TOGGLE ===== -->
+  <button class="audio-toggle" id="audio-toggle" aria-label="Toggle music" title="Toggle music">
+    <div class="bars">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
+
+  <!-- Background music — replace src with your file -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="assets/music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- ===== MORE INFO MODAL ===== -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+      <h3 class="modal-title">A Fairytale</h3>
+      <p class="modal-subtitle">"A story written by destiny."</p>
+      <div class="modal-detail">
+        <p><strong>Genre:</strong> Romance • Fantasy • Birthday Special</p>
+        <p><strong>Release:</strong> 2026</p>
+        <p><strong>Rating:</strong> ♥♥♥♥♥ — Masterpiece</p>
+        <br />
+        <p>
+          This isn't just a movie. It's a feeling.
+          A celebration of the most beautiful soul —
+          the kind of person who turns ordinary moments into cinematic memories.
+        </p>
+        <br />
+        <p><strong>Starring:</strong> The most amazing person in the world.</p>
+        <p><strong>Director:</strong> Destiny, with a little help from love.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
