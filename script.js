@@ -1,5 +1,6 @@
 /* ============================================
-   A FAIRYTALE — Cinematic Script
+   A FAIRYTALE — Premium Cinematic Script
+   Netflix-Quality OTT Experience
    ============================================ */
 
 (function () {
@@ -33,39 +34,32 @@
   startScreen.addEventListener('click', startExperience);
 
   function startExperience() {
-    // Fade out the start screen
     startScreen.classList.add('fade-out');
 
     setTimeout(() => {
       startScreen.style.display = 'none';
-
-      // Show intro overlay and play video + audio together
       introOverlay.style.display = 'flex';
 
       // Play intro audio (the Netflix "ta-dum" sound)
       introAudio.volume = 1.0;
       introAudio.play().catch(() => {});
 
-      // Play intro video with full quality
-      introVideo.muted = true; // keep video muted since we play separate HD audio
-      introVideo.play().then(() => {
-        // Video playing successfully
-      }).catch(() => {
-        // If video fails, just end the intro
+      // Play intro video
+      introVideo.muted = true;
+      introVideo.play().then(() => {}).catch(() => {
         endIntro();
       });
     }, 800);
 
-    // When video ends, transition to main page
     introVideo.addEventListener('ended', endIntro);
 
-    // Fallback: skip after video seems stuck (15 seconds max)
+    // Fallback skip after 15 seconds
     setTimeout(() => {
       if (!introEnded) endIntro();
     }, 15000);
   }
 
-  // Allow skip via click or key during intro
+  // Allow skip via keyboard
   document.addEventListener('keydown', function onKey(e) {
     if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
       if (startScreen.style.display !== 'none') {
@@ -98,7 +92,7 @@
       introOverlay.style.display = 'none';
       introVideo.pause();
       introVideo.removeAttribute('src');
-      introVideo.load(); // free memory
+      introVideo.load();
       revealPage();
     }, 1200);
   }
@@ -115,36 +109,58 @@
      ============================================ */
   function initParallax() {
     const hero = document.getElementById('hero');
-    if (!hero) return;
+    if (!hero || !heroBg) return;
 
-    // Only enable on non-touch devices
+    // Only on non-touch (hover-capable) devices
     if (window.matchMedia('(hover: hover)').matches) {
+      let targetX = 0, targetY = 0;
+      let currentX = 0, currentY = 0;
+      let rafId = null;
+
       hero.addEventListener('mousemove', (e) => {
         const rect = hero.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        targetX = ((e.clientX - rect.left) / rect.width - 0.5) * -18;
+        targetY = ((e.clientY - rect.top) / rect.height - 0.5) * -18;
 
-        requestAnimationFrame(() => {
-          heroBg.style.transform = `translate(${x * -12}px, ${y * -12}px)`;
-        });
+        if (!rafId) {
+          rafId = requestAnimationFrame(smoothParallax);
+        }
       });
 
+      function smoothParallax() {
+        // Lerp for butter-smooth movement
+        currentX += (targetX - currentX) * 0.06;
+        currentY += (targetY - currentY) * 0.06;
+
+        heroBg.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.02)`;
+
+        if (Math.abs(targetX - currentX) > 0.01 || Math.abs(targetY - currentY) > 0.01) {
+          rafId = requestAnimationFrame(smoothParallax);
+        } else {
+          rafId = null;
+        }
+      }
+
       hero.addEventListener('mouseleave', () => {
-        heroBg.style.transition = 'transform 0.6s ease';
-        heroBg.style.transform = 'translate(0, 0)';
-        setTimeout(() => { heroBg.style.transition = ''; }, 600);
+        targetX = 0;
+        targetY = 0;
+        if (!rafId) {
+          rafId = requestAnimationFrame(smoothParallax);
+        }
       });
     }
   }
 
   /* ============================================
      3. FLOATING PARTICLES (GOLDEN DUST)
+     Premium cinematic ambient effect
      ============================================ */
   function initParticles() {
     const canvas = particlesCanvas;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     let particles = [];
+    let mouseX = -1000, mouseY = -1000;
 
     function resize() {
       canvas.width = window.innerWidth;
@@ -153,6 +169,12 @@
     resize();
     window.addEventListener('resize', resize);
 
+    // Track mouse for particle interaction
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
     class Particle {
       constructor() {
         this.reset();
@@ -160,21 +182,32 @@
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2.5 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = Math.random() * -0.4 - 0.1;
-        this.opacity = Math.random() * 0.5 + 0.1;
+        this.size = Math.random() * 2.2 + 0.4;
+        this.speedX = (Math.random() - 0.5) * 0.25;
+        this.speedY = Math.random() * -0.35 - 0.08;
+        this.opacity = Math.random() * 0.45 + 0.05;
         this.fadeDir = Math.random() > 0.5 ? 1 : -1;
-        // warm golden / amber colour
-        this.hue = 30 + Math.random() * 25;
-        this.sat = 60 + Math.random() * 30;
-        this.light = 60 + Math.random() * 25;
+        // Warm golden / amber colour palette
+        this.hue = 28 + Math.random() * 30;
+        this.sat = 55 + Math.random() * 35;
+        this.light = 55 + Math.random() * 30;
       }
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-        this.opacity += this.fadeDir * 0.003;
-        if (this.opacity <= 0.05 || this.opacity >= 0.6) this.fadeDir *= -1;
+        this.opacity += this.fadeDir * 0.002;
+        if (this.opacity <= 0.03 || this.opacity >= 0.5) this.fadeDir *= -1;
+
+        // Subtle mouse repulsion
+        const dx = this.x - mouseX;
+        const dy = this.y - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          const force = (120 - dist) / 120 * 0.5;
+          this.x += (dx / dist) * force;
+          this.y += (dy / dist) * force;
+        }
+
         if (this.y < -10 || this.x < -10 || this.x > canvas.width + 10) {
           this.reset();
           this.y = canvas.height + 10;
@@ -184,15 +217,15 @@
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.light}%, ${this.opacity})`;
-        ctx.shadowColor = `hsla(${this.hue}, ${this.sat}%, ${this.light}%, ${this.opacity * 0.5})`;
-        ctx.shadowBlur = 6;
+        ctx.shadowColor = `hsla(${this.hue}, ${this.sat}%, ${this.light}%, ${this.opacity * 0.6})`;
+        ctx.shadowBlur = 8;
         ctx.fill();
         ctx.shadowBlur = 0;
       }
     }
 
-    // Create particles — fewer on mobile
-    const count = window.innerWidth < 768 ? 35 : 70;
+    // More particles for richer atmosphere
+    const count = window.innerWidth < 768 ? 40 : 85;
     for (let i = 0; i < count; i++) {
       particles.push(new Particle());
     }
@@ -239,15 +272,25 @@
      5. PLAY BUTTON — Navigate to birthday.html
      ============================================ */
   btnPlay.addEventListener('click', () => {
-    // Fade out page then navigate
-    pageContent.style.transition = 'opacity 0.8s ease';
-    pageContent.style.opacity = '0';
+    // Cinematic fade out
+    document.body.style.transition = 'opacity 1s ease';
+    document.body.style.opacity = '0';
     if (musicPlaying) {
-      bgMusic.pause();
+      // Fade out music smoothly
+      let vol = bgMusic.volume;
+      const fadeInterval = setInterval(() => {
+        vol -= 0.05;
+        if (vol <= 0) {
+          clearInterval(fadeInterval);
+          bgMusic.pause();
+        } else {
+          bgMusic.volume = vol;
+        }
+      }, 50);
     }
     setTimeout(() => {
       window.location.href = 'birthday.html';
-    }, 850);
+    }, 1000);
   });
 
   /* ============================================
@@ -302,19 +345,42 @@
   });
 
   /* ============================================
-     9. NAVBAR SCROLL BEHAVIOUR
+     9. NAVBAR SCROLL BEHAVIOUR — Netflix-style
      ============================================ */
+  let lastScroll = 0;
+  const navbar = document.getElementById('navbar');
+
   window.addEventListener('scroll', () => {
-    const navbar = document.getElementById('navbar');
     const currentScroll = window.scrollY;
-    if (currentScroll > 50) {
-      navbar.style.background = 'rgba(0,0,0,0.92)';
-      navbar.style.backdropFilter = 'blur(12px)';
+
+    if (currentScroll > 10) {
+      navbar.classList.add('scrolled');
     } else {
-      navbar.style.background = '';
-      navbar.style.backdropFilter = '';
+      navbar.classList.remove('scrolled');
     }
-  });
+
+    lastScroll = currentScroll;
+  }, { passive: true });
+
+  /* ============================================
+     10. RIPPLE EFFECT ON BUTTONS
+     ============================================ */
+  function addRipple(button) {
+    button.addEventListener('click', function (e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'btn-ripple';
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    });
+  }
+
+  addRipple(btnPlay);
+  addRipple(btnInfo);
 
   /* ============================================
      INIT

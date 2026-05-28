@@ -1,33 +1,37 @@
-/* ============================================
-   A FAIRYTALE — Cinematic Birthday Surprise
-   Netflix-Style OTT Landing Page
-   ============================================ */
+/* ================================================================
+   A FAIRYTALE — Premium Cinematic Birthday Experience
+   Netflix-Inspired OTT Design System
+   ================================================================ */
 
-/* ---------- Google Fonts ---------- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+/* ── Google Fonts ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* ---------- CSS Custom Properties ---------- */
+/* ── CSS Custom Properties ────────────────────────────────────── */
 :root {
   --bg-primary: #000000;
   --bg-secondary: #141414;
-  --bg-card: #1a1a1a;
+  --bg-card: #181818;
   --netflix-red: #E50914;
   --netflix-red-dark: #B20710;
-  --accent-gold: #d4a853;
+  --accent-gold: #c9a84c;
   --accent-warm: #e8a87c;
   --text-primary: #ffffff;
   --text-secondary: #b3b3b3;
   --text-muted: #737373;
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.1);
   --shadow-glow: 0 0 40px rgba(229, 9, 20, 0.15);
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   --transition-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* ---------- Reset & Base ---------- */
+
+/* ================================================================
+   1. RESET & BASE
+   ================================================================ */
+
 *,
 *::before,
 *::after {
@@ -38,28 +42,39 @@
 
 html {
   scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   font-family: var(--font-body);
-  background: var(--bg-primary);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
-  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hide scrollbar for cleaner feel */
-body::-webkit-scrollbar {
+/* Custom Scrollbar */
+::-webkit-scrollbar {
   width: 6px;
 }
-body::-webkit-scrollbar-track {
+
+::-webkit-scrollbar-track {
   background: var(--bg-primary);
 }
-body::-webkit-scrollbar-thumb {
-  background: rgba(229, 9, 20, 0.4);
-  border-radius: 3px;
+
+::-webkit-scrollbar-thumb {
+  background: var(--netflix-red);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--netflix-red-dark);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--netflix-red) var(--bg-primary);
 }
 
 a {
@@ -72,29 +87,42 @@ button {
   outline: none;
   cursor: pointer;
   font-family: var(--font-body);
+  background: none;
 }
 
-/* ============================================
-   CLICK TO START SCREEN
-   ============================================ */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+
+/* ================================================================
+   2. CLICK TO START SCREEN (#start-screen)
+   ================================================================ */
+
 #start-screen {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 11000;
-  background: #000;
+  background: var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: opacity 0.8s ease;
-}
-
-#start-screen.fade-out {
-  opacity: 0;
-  pointer-events: none;
 }
 
 .start-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
   text-align: center;
   animation: fadeIn 1.5s ease forwards;
 }
@@ -103,27 +131,15 @@ button {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.25);
+  border: 2px solid rgba(255, 255, 255, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  color: #fff;
-  margin: 0 auto 28px;
-  animation: startPulse 2s ease-in-out infinite;
-  background: rgba(229, 9, 20, 0.1);
-  padding-left: 6px;
-}
-
-@keyframes startPulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.4);
-  }
-  50% {
-    transform: scale(1.08);
-    box-shadow: 0 0 40px 10px rgba(229, 9, 20, 0.15);
-  }
+  color: var(--text-primary);
+  animation: startPulse 2.5s ease-in-out infinite;
+  background: rgba(229, 9, 20, 0.06);
+  box-shadow: 0 0 60px rgba(229, 9, 20, 0.08);
 }
 
 .start-text {
@@ -133,7 +149,6 @@ button {
   letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--text-primary);
-  margin-bottom: 10px;
 }
 
 .start-sub {
@@ -142,21 +157,35 @@ button {
   letter-spacing: 1px;
 }
 
-/* ============================================
-   NETFLIX INTRO OVERLAY
-   ============================================ */
+#start-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+
+/* ================================================================
+   3. NETFLIX INTRO OVERLAY (#intro-overlay)
+   ================================================================ */
+
 #intro-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   z-index: 10000;
-  background: #000;
+  background: var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 1.2s ease;
+  transition: opacity 0.8s ease;
+}
+
+#intro-overlay video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 #intro-overlay.fade-out {
@@ -164,16 +193,11 @@ button {
   pointer-events: none;
 }
 
-#intro-overlay video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: #000;
-}
 
-/* ============================================
-   PAGE LOAD TRANSITION
-   ============================================ */
+/* ================================================================
+   4. PAGE CONTENT (.page-content)
+   ================================================================ */
+
 .page-content {
   opacity: 0;
   transition: opacity 1.5s ease 0.3s;
@@ -183,92 +207,110 @@ button {
   opacity: 1;
 }
 
-/* ============================================
-   NAVIGATION BAR
-   ============================================ */
+
+/* ================================================================
+   5. NAVBAR (.navbar) — NETFLIX STYLE
+   ================================================================ */
+
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  padding: 18px 4%;
+  padding: 0 4%;
+  height: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+  transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  animation: navSlideDown 0.6s ease forwards;
   transform: translateY(-100%);
-  animation: navSlideDown 1s var(--transition-smooth) 0.5s forwards;
 }
 
-@keyframes navSlideDown {
-  to { transform: translateY(0); }
+.navbar.scrolled {
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
+/* Nav Left */
 .nav-left {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 48px;
 }
 
 .nav-logo {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-family: var(--font-body);
+  font-size: 1.55rem;
   font-weight: 700;
   color: var(--netflix-red);
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   cursor: pointer;
-  text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+  text-shadow:
+    0 0 30px rgba(229, 9, 20, 0.6),
+    0 0 60px rgba(229, 9, 20, 0.3);
+  user-select: none;
 }
 
+/* Nav Links */
 .nav-links {
   display: flex;
-  gap: 24px;
+  gap: 28px;
   list-style: none;
 }
 
 .nav-links li a {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 400;
   color: var(--text-secondary);
-  transition: color 0.3s ease, text-shadow 0.3s ease;
+  transition: color 0.3s ease;
   position: relative;
+  white-space: nowrap;
 }
 
 .nav-links li a:hover {
   color: var(--text-primary);
-  text-shadow: 0 0 10px rgba(255,255,255,0.2);
 }
 
 .nav-links li a::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  bottom: -6px;
   left: 0;
   width: 0;
-  height: 1px;
+  height: 2px;
   background: var(--netflix-red);
   transition: width 0.3s ease;
+  border-radius: 1px;
 }
 
 .nav-links li a:hover::after {
   width: 100%;
 }
 
+.nav-links li a[data-active] {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Nav Right */
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 22px;
 }
 
 .nav-icon {
   width: 22px;
   height: 22px;
   color: var(--text-primary);
-  cursor: pointer;
   opacity: 0.8;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .nav-icon:hover {
@@ -282,15 +324,15 @@ button {
   border-radius: 4px;
   background: linear-gradient(135deg, var(--netflix-red), var(--accent-gold));
   cursor: pointer;
-  transition: box-shadow 0.3s ease;
-  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .nav-avatar:hover {
-  box-shadow: 0 0 12px rgba(229, 9, 20, 0.5);
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
+  transform: scale(1.05);
 }
 
-/* Mobile Nav Toggle */
+/* Nav Toggle (Mobile) */
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -304,25 +346,28 @@ button {
   width: 22px;
   height: 2px;
   background: var(--text-primary);
-  border-radius: 1px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  border-radius: 2px;
+  transition: all 0.3s ease;
 }
 
-/* ============================================
-   HERO SECTION
-   ============================================ */
+
+/* ================================================================
+   6. HERO SECTION (.hero) — ULTRA CINEMATIC
+   ================================================================ */
+
 .hero {
   position: relative;
   width: 100%;
   height: 100vh;
-  min-height: 600px;
+  min-height: 650px;
   overflow: hidden;
   display: flex;
   align-items: flex-end;
-  padding-bottom: 12vh;
+  padding-bottom: 14vh;
 }
 
-/* Background image with Ken Burns zoom */
+/* ── Hero Background ──────────────────────────────────────────── */
+
 .hero-bg {
   position: absolute;
   top: 0;
@@ -336,17 +381,13 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 20%;
-  animation: kenBurns 30s ease-in-out infinite alternate;
+  object-position: center 15%;
+  animation: kenBurns 25s ease-in-out infinite alternate;
   will-change: transform;
 }
 
-@keyframes kenBurns {
-  0% { transform: scale(1) translate(0, 0); }
-  100% { transform: scale(1.12) translate(-1%, -1%); }
-}
+/* ── Cinematic Overlays (Premium Feel) ────────────────────────── */
 
-/* Cinematic overlays */
 .hero-overlay {
   position: absolute;
   top: 0;
@@ -354,15 +395,17 @@ button {
   width: 100%;
   height: 100%;
   z-index: 1;
+  pointer-events: none;
 }
 
 .hero-overlay--gradient {
   background: linear-gradient(
-    77deg,
-    rgba(0,0,0,0.9) 0%,
-    rgba(0,0,0,0.6) 30%,
-    rgba(0,0,0,0.15) 60%,
-    rgba(0,0,0,0.3) 100%
+    90deg,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.8) 25%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.1) 75%,
+    transparent 100%
   );
 }
 
@@ -370,20 +413,22 @@ button {
   background: linear-gradient(
     0deg,
     var(--bg-primary) 0%,
-    rgba(0,0,0,0.7) 15%,
-    transparent 40%
+    rgba(0, 0, 0, 0.8) 20%,
+    rgba(0, 0, 0, 0.4) 40%,
+    transparent 60%
   );
 }
 
 .hero-overlay--vignette {
   background: radial-gradient(
     ellipse at center,
-    transparent 50%,
-    rgba(0,0,0,0.6) 100%
+    transparent 40%,
+    rgba(0, 0, 0, 0.7) 100%
   );
 }
 
-/* Film Grain */
+/* ── Film Grain ───────────────────────────────────────────────── */
+
 .film-grain {
   position: absolute;
   top: 0;
@@ -391,22 +436,15 @@ button {
   width: 100%;
   height: 100%;
   z-index: 2;
-  opacity: 0.04;
+  opacity: 0.035;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
   background-repeat: repeat;
   animation: grainShift 0.5s steps(5) infinite;
 }
 
-@keyframes grainShift {
-  0%, 100% { transform: translate(0,0); }
-  20% { transform: translate(-2px, 1px); }
-  40% { transform: translate(1px, -1px); }
-  60% { transform: translate(-1px, 2px); }
-  80% { transform: translate(2px, -2px); }
-}
+/* ── Particles Canvas ─────────────────────────────────────────── */
 
-/* Floating particles canvas */
 #particles-canvas {
   position: absolute;
   top: 0;
@@ -417,80 +455,87 @@ button {
   pointer-events: none;
 }
 
-/* Hero content */
+/* ── Hero Content ─────────────────────────────────────────────── */
+
 .hero-content {
   position: relative;
   z-index: 5;
   padding: 0 4%;
-  max-width: 650px;
+  max-width: 680px;
 }
 
+/* Badge */
 .hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 10px;
+  margin-bottom: 20px;
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeSlideUp 0.8s var(--transition-smooth) 1s forwards;
+  animation: fadeSlideUp 0.8s ease 1s forwards;
 }
 
 .hero-badge-logo {
-  height: 20px;
+  height: 22px;
   width: auto;
-  object-fit: contain;
 }
 
 .hero-badge-text {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
+/* Title */
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 7vw, 5.5rem);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -1px;
-  margin-bottom: 10px;
+  font-size: clamp(3.5rem, 8vw, 6.5rem);
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
   opacity: 0;
-  transform: translateY(30px);
-  animation: fadeSlideUp 1s var(--transition-smooth) 1.2s forwards;
-  text-shadow: 0 4px 30px rgba(0,0,0,0.7);
+  transform: translateY(35px);
+  animation: fadeSlideUp 1.2s ease 1.2s forwards;
+  text-shadow:
+    0 4px 40px rgba(0, 0, 0, 0.8),
+    0 0 80px rgba(0, 0, 0, 0.5);
 }
 
 .hero-title .title-highlight {
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-gold) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent-gold) 50%, #e8c878 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+/* Subtitle */
 .hero-subtitle {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-size: clamp(1.05rem, 2.2vw, 1.4rem);
   color: var(--accent-warm);
-  margin-bottom: 18px;
+  margin-bottom: 22px;
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeSlideUp 0.8s var(--transition-smooth) 1.5s forwards;
-  text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+  animation: fadeSlideUp 0.8s ease 1.6s forwards;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
 }
 
+/* Tags */
 .hero-tags {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  font-size: 0.82rem;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 0.8rem;
   color: var(--text-muted);
+  font-family: var(--font-body);
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeSlideUp 0.8s var(--transition-smooth) 1.7s forwards;
+  animation: fadeSlideUp 0.8s ease 1.8s forwards;
 }
 
 .hero-tags .tag-dot {
@@ -498,19 +543,21 @@ button {
   height: 4px;
   border-radius: 50%;
   background: var(--netflix-red);
+  flex-shrink: 0;
 }
 
-/* Netflix-style metadata row */
+/* Meta */
 .hero-meta {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 18px;
+  gap: 12px;
+  margin-bottom: 22px;
   font-size: 0.88rem;
   font-weight: 500;
+  font-family: var(--font-body);
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeSlideUp 0.8s var(--transition-smooth) 1.8s forwards;
+  animation: fadeSlideUp 0.8s ease 1.9s forwards;
 }
 
 .meta-match {
@@ -524,9 +571,9 @@ button {
 
 .meta-rating {
   color: var(--text-secondary);
-  border: 1px solid rgba(255,255,255,0.35);
-  padding: 1px 7px;
-  font-size: 0.76rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 2px 8px;
+  font-size: 0.74rem;
   border-radius: 3px;
   line-height: 1.4;
 }
@@ -535,40 +582,47 @@ button {
   color: var(--text-secondary);
 }
 
+/* Description */
 .hero-description {
-  font-size: 1rem;
-  line-height: 1.7;
+  font-size: 1.05rem;
+  line-height: 1.8;
   color: var(--text-secondary);
-  margin-bottom: 30px;
-  max-width: 500px;
+  margin-bottom: 36px;
+  max-width: 480px;
+  font-family: var(--font-body);
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeSlideUp 0.8s var(--transition-smooth) 2s forwards;
+  animation: fadeSlideUp 0.8s ease 2.1s forwards;
 }
 
-/* Buttons */
+/* ── Hero Buttons — Netflix Style ─────────────────────────────── */
+
 .hero-buttons {
   display: flex;
   align-items: center;
   gap: 14px;
   opacity: 0;
-  transform: translateY(30px);
-  animation: fadeSlideUp 1s var(--transition-smooth) 2.1s forwards;
+  transform: translateY(20px);
+  animation: fadeSlideUp 1s ease 2.3s forwards;
 }
 
+/* Play Button */
 .btn-play {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 32px;
+  padding: 13px 34px;
   background: var(--text-primary);
   color: var(--bg-primary);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  border-radius: 6px;
-  transition: all 0.35s var(--transition-smooth);
+  border-radius: 5px;
+  font-family: var(--font-body);
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  border: none;
+  cursor: pointer;
 }
 
 .btn-play::before {
@@ -578,20 +632,20 @@ button {
   left: 50%;
   width: 0;
   height: 0;
-  background: rgba(229, 9, 20, 0.15);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  transition: width 0.6s ease, height 0.6s ease;
+  transition: width 0.5s ease, height 0.5s ease;
 }
 
 .btn-play:hover {
-  transform: scale(1.06);
-  box-shadow: 0 0 30px rgba(255,255,255,0.25), 0 0 60px rgba(229, 9, 20, 0.15);
+  transform: scale(1.05);
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
 }
 
 .btn-play:hover::before {
-  width: 350px;
-  height: 350px;
+  width: 300px;
+  height: 300px;
 }
 
 .btn-play:active {
@@ -604,6 +658,7 @@ button {
   fill: currentColor;
   position: relative;
   z-index: 1;
+  flex-shrink: 0;
 }
 
 .btn-play span {
@@ -611,37 +666,42 @@ button {
   z-index: 1;
 }
 
+/* Info Button */
 .btn-info {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 28px;
-  background: var(--glass-bg);
+  padding: 13px 30px;
+  background: rgba(109, 109, 110, 0.7);
   color: var(--text-primary);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 500;
-  border-radius: 6px;
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: all 0.35s var(--transition-smooth);
+  border-radius: 5px;
+  font-family: var(--font-body);
+  border: none;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .btn-info:hover {
-  background: rgba(255,255,255,0.15);
+  background: rgba(109, 109, 110, 0.5);
   transform: scale(1.04);
-  border-color: rgba(255,255,255,0.2);
 }
 
 .btn-info svg {
   width: 20px;
   height: 20px;
   fill: currentColor;
+  flex-shrink: 0;
 }
 
-/* ============================================
-   AUDIO CONTROLLER
-   ============================================ */
+
+/* ================================================================
+   7. AUDIO TOGGLE (.audio-toggle)
+   ================================================================ */
+
 .audio-toggle {
   position: fixed;
   bottom: 30px;
@@ -658,22 +718,15 @@ button {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
   opacity: 0;
-  animation: fadeIn 0.8s ease 3s forwards;
+  animation: fadeIn 0.8s ease 3.5s forwards;
+  transition: all 0.3s ease;
 }
 
 .audio-toggle:hover {
-  background: rgba(229, 9, 20, 0.2);
-  border-color: rgba(229, 9, 20, 0.3);
+  background: rgba(229, 9, 20, 0.15);
+  box-shadow: 0 0 25px rgba(229, 9, 20, 0.2);
   transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(229, 9, 20, 0.2);
-}
-
-.audio-toggle svg {
-  width: 20px;
-  height: 20px;
-  fill: var(--text-primary);
 }
 
 .audio-toggle .bars {
@@ -687,46 +740,62 @@ button {
   display: block;
   width: 3px;
   background: var(--text-primary);
-  border-radius: 1px;
+  border-radius: 2px;
   transition: height 0.3s ease;
 }
 
-.audio-toggle.playing .bars span {
+/* Playing State */
+.audio-toggle.playing .bars span:nth-child(1) {
   animation: audioBar 0.8s ease-in-out infinite alternate;
+  animation-delay: 0s;
 }
 
-.audio-toggle.playing .bars span:nth-child(1) { height: 6px; animation-delay: 0s; }
-.audio-toggle.playing .bars span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
-.audio-toggle.playing .bars span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
-.audio-toggle.playing .bars span:nth-child(4) { height: 14px; animation-delay: 0.1s; }
+.audio-toggle.playing .bars span:nth-child(2) {
+  animation: audioBar 0.8s ease-in-out infinite alternate;
+  animation-delay: 0.15s;
+}
 
+.audio-toggle.playing .bars span:nth-child(3) {
+  animation: audioBar 0.8s ease-in-out infinite alternate;
+  animation-delay: 0.3s;
+}
+
+.audio-toggle.playing .bars span:nth-child(4) {
+  animation: audioBar 0.8s ease-in-out infinite alternate;
+  animation-delay: 0.45s;
+}
+
+.audio-toggle.playing .bars span:nth-child(5) {
+  animation: audioBar 0.8s ease-in-out infinite alternate;
+  animation-delay: 0.6s;
+}
+
+/* Muted / Not Playing */
 .audio-toggle:not(.playing) .bars span {
-  height: 3px !important;
+  height: 3px;
   animation: none;
 }
 
-@keyframes audioBar {
-  0% { height: 4px; }
-  100% { height: 16px; }
-}
 
-/* ============================================
-   TRENDING MEMORIES SECTION
-   ============================================ */
+/* ================================================================
+   8. TRENDING MEMORIES SECTION (.memories-section)
+   ================================================================ */
+
 .memories-section {
   position: relative;
   z-index: 10;
-  padding: 20px 4% 80px;
-  margin-top: -80px;
+  padding: 30px 4% 100px;
+  margin-top: -100px;
 }
 
 .memories-title {
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  font-family: var(--font-body);
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.8s var(--transition-smooth);
+  transition: all 0.8s ease;
 }
 
 .memories-title.visible {
@@ -734,33 +803,39 @@ button {
   transform: translateY(0);
 }
 
+/* Memories Row */
 .memories-row {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   overflow-x: auto;
   overflow-y: visible;
-  padding: 10px 0 30px;
+  padding: 14px 0 40px;
   scroll-behavior: smooth;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
+/* Hide scrollbar */
 .memories-row::-webkit-scrollbar {
   display: none;
 }
 
-/* Memory cards */
+.memories-row {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ── Memory Cards — Netflix Style ─────────────────────────────── */
+
 .memory-card {
   flex: 0 0 auto;
-  width: 240px;
-  height: 340px;
+  width: 260px;
+  height: 370px;
   border-radius: 6px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
-  transition: all 0.4s var(--transition-smooth);
+  transition: all 0.35s var(--transition-smooth);
   opacity: 0;
-  transform: translateY(25px);
+  transform: translateY(30px);
 }
 
 .memory-card.visible {
@@ -769,13 +844,14 @@ button {
 }
 
 .memory-card:hover {
-  transform: scale(1.08) translateY(-8px);
+  transform: scale(1.12) translateY(-12px);
   z-index: 20;
   box-shadow:
-    0 12px 40px rgba(0,0,0,0.7),
-    0 0 30px rgba(229, 9, 20, 0.12);
+    0 16px 50px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(229, 9, 20, 0.15);
 }
 
+/* Card Image */
 .memory-card img {
   width: 100%;
   height: 100%;
@@ -784,16 +860,22 @@ button {
 }
 
 .memory-card:hover img {
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 
+/* Card Overlay */
 .memory-card-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 30px 16px 16px;
-  background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  padding: 35px 18px 18px;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.5) 50%,
+    transparent 100%
+  );
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.35s ease;
@@ -807,72 +889,152 @@ button {
 .memory-card-title {
   font-size: 0.95rem;
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  font-family: var(--font-body);
+  color: var(--text-primary);
 }
 
 .memory-card-tag {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--netflix-red);
   font-weight: 500;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
 }
 
-/* Hover glow ring */
+/* Card Hover Border Ring */
 .memory-card::after {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   border-radius: 6px;
   border: 2px solid transparent;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.35s ease;
+  pointer-events: none;
 }
 
 .memory-card:hover::after {
-  border-color: rgba(229, 9, 20, 0.35);
+  border-color: rgba(229, 9, 20, 0.4);
 }
 
-/* ============================================
-   FOOTER
-   ============================================ */
+
+/* ================================================================
+   9. FOOTER
+   ================================================================ */
+
 .footer {
-  padding: 40px 4%;
+  padding: 50px 4%;
   text-align: center;
   color: var(--text-muted);
   font-size: 0.78rem;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  font-family: var(--font-body);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  line-height: 1.8;
 }
 
 .footer span {
   color: var(--netflix-red);
 }
 
-/* ============================================
-   SHARED ANIMATIONS
-   ============================================ */
+
+/* ================================================================
+   10. SHARED ANIMATIONS
+   ================================================================ */
+
 @keyframes fadeSlideUp {
-  to {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
 @keyframes fadeIn {
-  to {
+  0% {
+    opacity: 0;
+  }
+  100% {
     opacity: 1;
   }
 }
 
-/* ============================================
-   MORE INFO MODAL
-   ============================================ */
+@keyframes navSlideDown {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes kenBurns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.08) translate(-0.5%, -0.5%);
+  }
+}
+
+@keyframes grainShift {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-2px, 1px);
+  }
+  40% {
+    transform: translate(1px, -1px);
+  }
+  60% {
+    transform: translate(-1px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+}
+
+@keyframes audioBar {
+  0% {
+    height: 4px;
+  }
+  100% {
+    height: 16px;
+  }
+}
+
+@keyframes startPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.4);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 40px 10px rgba(229, 9, 20, 0.15);
+  }
+}
+
+
+/* ================================================================
+   11. MORE INFO MODAL
+   ================================================================ */
+
 .modal-overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 9000;
-  background: rgba(0,0,0,0.75);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -889,10 +1051,10 @@ button {
 .modal-box {
   background: var(--bg-secondary);
   border: 1px solid var(--glass-border);
-  border-radius: 12px;
+  border-radius: 14px;
   width: 90%;
-  max-width: 540px;
-  padding: 40px 36px;
+  max-width: 560px;
+  padding: 44px 40px;
   position: relative;
   transform: scale(0.9) translateY(30px);
   transition: transform 0.45s var(--transition-bounce);
@@ -906,16 +1068,17 @@ button {
   position: absolute;
   top: 16px;
   right: 16px;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
-  font-size: 1.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border: none;
+  font-size: 1.2rem;
   transition: background 0.3s ease;
 }
 
@@ -925,51 +1088,66 @@ button {
 
 .modal-title {
   font-family: var(--font-display);
-  font-size: 1.8rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-primary);
   margin-bottom: 8px;
 }
 
 .modal-subtitle {
+  font-family: var(--font-display);
   font-style: italic;
   color: var(--accent-warm);
-  margin-bottom: 20px;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
+  margin-bottom: 24px;
 }
 
 .modal-detail {
   color: var(--text-secondary);
   font-size: 0.9rem;
   line-height: 1.8;
+  font-family: var(--font-body);
 }
 
 .modal-detail strong {
   color: var(--text-primary);
 }
 
-/* ============================================
-   RESPONSIVE — TABLET
-   ============================================ */
+
+/* ================================================================
+   12. RESPONSIVE — TABLET (max-width: 1024px)
+   ================================================================ */
+
 @media (max-width: 1024px) {
   .hero-content {
-    max-width: 520px;
+    max-width: 560px;
   }
 
   .hero-title {
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
   }
 
   .memory-card {
-    width: 200px;
-    height: 290px;
+    width: 220px;
+    height: 310px;
+  }
+
+  .nav-links {
+    gap: 20px;
   }
 }
 
-/* ============================================
-   RESPONSIVE — MOBILE
-   ============================================ */
+
+/* ================================================================
+   13. RESPONSIVE — MOBILE (max-width: 768px)
+   ================================================================ */
+
 @media (max-width: 768px) {
+  /* Navbar */
   .navbar {
     padding: 14px 5%;
+    height: auto;
+    flex-wrap: wrap;
   }
 
   .nav-links {
@@ -979,7 +1157,7 @@ button {
     left: 0;
     width: 100%;
     flex-direction: column;
-    background: rgba(0,0,0,0.95);
+    background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     padding: 20px 5%;
@@ -991,6 +1169,11 @@ button {
     display: flex;
   }
 
+  .nav-links li a {
+    font-size: 0.95rem;
+    padding: 6px 0;
+  }
+
   .nav-toggle {
     display: flex;
   }
@@ -999,6 +1182,7 @@ button {
     display: none;
   }
 
+  /* Hero */
   .hero {
     align-items: center;
     padding-bottom: 0;
@@ -1022,15 +1206,15 @@ button {
   .hero-overlay--gradient {
     background: linear-gradient(
       0deg,
-      rgba(0,0,0,0.92) 0%,
-      rgba(0,0,0,0.7) 35%,
-      rgba(0,0,0,0.3) 65%,
-      rgba(0,0,0,0.5) 100%
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.75) 35%,
+      rgba(0, 0, 0, 0.35) 65%,
+      rgba(0, 0, 0, 0.5) 100%
     );
   }
 
   .hero-title {
-    font-size: clamp(2.2rem, 10vw, 3.2rem);
+    font-size: clamp(2.4rem, 10vw, 3.5rem);
   }
 
   .hero-subtitle {
@@ -1049,7 +1233,7 @@ button {
   }
 
   .hero-description {
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     text-align: center;
   }
 
@@ -1066,24 +1250,26 @@ button {
     padding: 14px 24px;
   }
 
+  /* Memories Section */
   .memories-section {
     padding: 10px 5% 60px;
-    margin-top: -40px;
+    margin-top: -50px;
   }
 
   .memories-title {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
   }
 
   .memory-card {
-    width: 150px;
-    height: 220px;
+    width: 160px;
+    height: 235px;
   }
 
   .memory-card-title {
     font-size: 0.82rem;
   }
 
+  /* Audio Toggle */
   .audio-toggle {
     bottom: 20px;
     right: 20px;
@@ -1091,18 +1277,29 @@ button {
     height: 42px;
   }
 
+  /* Modal */
   .modal-box {
     padding: 30px 24px;
     width: 92%;
   }
+
+  .modal-title {
+    font-size: 1.6rem;
+  }
+
+  .modal-subtitle {
+    font-size: 1rem;
+  }
 }
 
-/* ============================================
-   RESPONSIVE — SMALL MOBILE
-   ============================================ */
+
+/* ================================================================
+   14. RESPONSIVE — SMALL MOBILE (max-width: 420px)
+   ================================================================ */
+
 @media (max-width: 420px) {
   .hero-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
   .hero-subtitle {
@@ -1114,7 +1311,69 @@ button {
   }
 
   .memory-card {
-    width: 130px;
-    height: 195px;
+    width: 140px;
+    height: 210px;
+  }
+
+  .memory-card-overlay {
+    padding: 25px 12px 12px;
+  }
+
+  .memory-card-title {
+    font-size: 0.75rem;
+  }
+
+  .memory-card-tag {
+    font-size: 0.62rem;
+  }
+
+  .hero-meta {
+    font-size: 0.76rem;
+    gap: 8px;
+  }
+
+  .hero-description {
+    font-size: 0.85rem;
+    margin-bottom: 28px;
+  }
+
+  .hero-badge-text {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+  }
+
+  .modal-box {
+    padding: 24px 18px;
+    width: 95%;
+    border-radius: 10px;
+  }
+
+  .modal-title {
+    font-size: 1.4rem;
   }
 }
+
+
+/* ── Button Ripple Effect (Dynamic via JS) ────────────────────── */
+
+.btn-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(0);
+  animation: rippleExpand 0.6s ease-out forwards;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes rippleExpand {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+
+/* ================================================================
+   END — A FAIRYTALE DESIGN SYSTEM
+   ================================================================ */
