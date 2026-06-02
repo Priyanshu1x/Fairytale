@@ -342,7 +342,7 @@ h1 span {
   position: relative;
   width: clamp(180px, 32vw, 450px);
   aspect-ratio: 1;
-  background: #fff;
+  background: #FFFDF8;
   border: 5px solid #333;
   border-radius: 50%;
   display: flex;
@@ -373,6 +373,25 @@ h1 span {
   height: 85%;
   object-fit: contain;
   mix-blend-mode: multiply;
+  z-index: 2;
+}
+
+/* Sparkles inside the circle */
+.circle-sparkle {
+  position: absolute;
+  color: var(--pink-main);
+  opacity: 0.8;
+  z-index: 1;
+  animation: twinkle 3s infinite ease-in-out;
+}
+.sparkle-1 { top: 20%; left: 25%; font-size: clamp(10px, 3vw, 15px); animation-delay: 0.2s; }
+.sparkle-2 { top: 15%; right: 30%; font-size: clamp(15px, 4vw, 20px); animation-delay: 1.5s; color: var(--pink-light); }
+.sparkle-3 { bottom: 25%; left: 15%; font-size: clamp(12px, 3.5vw, 18px); animation-delay: 0.8s; }
+.sparkle-4 { bottom: 20%; right: 20%; font-size: clamp(10px, 2.5vw, 14px); animation-delay: 2.1s; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.4; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
 }
 
 .smiley-face {
