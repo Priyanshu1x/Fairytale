@@ -685,6 +685,7 @@ h1 span {
   flex-direction: column;
   align-items: center;
   gap: 15px;
+  pointer-events: none; /* Let clicks pass through to envelope */
 }
 .story-text, .success-text {
   font-family: 'Fredoka One', cursive;
@@ -889,7 +890,7 @@ h1 span {
   opacity: 0.8;
 }
 
-/* Envelope and Open Letter Button */
+/* Envelope Interaction */
 .envelope-container {
   position: absolute;
   top: 10px; /* Inside top layer */
@@ -901,19 +902,47 @@ h1 span {
   pointer-events: none;
   transform: translateY(20px);
   transition: all 1.5s ease-out;
+  cursor: pointer;
 }
 .envelope-container.visible {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(-130px); /* Rise up fully above cake */
+  animation: floatEnvelope 3s ease-in-out 1.5s infinite alternate;
 }
+@keyframes floatEnvelope {
+  from { transform: translateY(-130px); }
+  to { transform: translateY(-145px); }
+}
+
+.envelope-text {
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  background: rgba(0,0,0,0.3);
+  padding: 5px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: transform 0.3s, background 0.3s;
+}
+.envelope-container:hover .envelope-text {
+  background: rgba(0,0,0,0.5);
+  transform: scale(1.05);
+}
+
 .envelope {
   width: 80px;
   height: 50px;
   background: #FFE5F1;
   position: relative;
   border-radius: 4px;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2), 0 0 15px rgba(255,167,196,0.5);
+  transition: transform 0.3s;
+}
+.envelope-container:hover .envelope {
+  transform: scale(1.05);
 }
 .envelope-flap {
   position: absolute;
@@ -922,6 +951,9 @@ h1 span {
   border-left: 40px solid transparent;
   border-right: 40px solid transparent;
   border-top: 30px solid #FFA7C4;
+  transform-origin: top center;
+  transition: transform 1s ease-in-out;
+  z-index: 3;
 }
 .envelope-body {
   position: absolute;
@@ -930,31 +962,133 @@ h1 span {
   border-left: 40px solid #F4D9F6;
   border-right: 40px solid #F4D9F6;
   border-bottom: 25px solid #FF7DA9;
+  z-index: 2;
 }
 .envelope-seal {
   position: absolute;
-  top: 20px; left: 50%;
+  top: 15px; left: 50%;
   transform: translateX(-50%);
   color: #D32F2F;
-  font-size: 1rem;
-  z-index: 5;
+  font-size: 1.2rem;
+  z-index: 4;
+  transition: transform 0.5s, opacity 0.5s;
 }
-.btn-open-letter {
-  margin-top: 25px;
-  background: #3F3568;
+
+/* Opening sequence classes */
+.envelope-container.opening {
+  animation: none; /* stop floating */
+  transform: translateY(-130px) scale(1.2);
+  pointer-events: none;
+}
+.envelope-container.opening .envelope-text {
+  opacity: 0;
+}
+.envelope-container.opening .envelope-seal {
+  animation: sealBreak 0.8s forwards;
+}
+@keyframes sealBreak {
+  0% { transform: translateX(-50%) scale(1); opacity: 1; filter: drop-shadow(0 0 5px #ff7da9); }
+  50% { transform: translateX(-50%) scale(1.5); opacity: 1; filter: drop-shadow(0 0 15px #ff7da9); }
+  100% { transform: translateX(-50%) scale(2); opacity: 0; filter: drop-shadow(0 0 20px #ff7da9); }
+}
+.envelope-container.opening .envelope-flap {
+  transition-delay: 0.8s;
+  transform: rotateX(180deg);
+  z-index: 1; /* drops behind paper */
+}
+
+/* Scene 3: Open Letter */
+#letter-scene {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 300; /* above everything */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+#letter-scene.active {
+  pointer-events: auto;
+  opacity: 1;
+}
+.btn-close-letter {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
   color: #fff;
-  border: none;
-  border-radius: 30px;
-  padding: 10px 20px;
   font-family: 'Nunito', sans-serif;
-  font-weight: 800;
-  font-size: 1rem;
+  font-size: 24px;
+  font-weight: bold;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  transition: background 0.3s;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
 }
-.btn-open-letter:hover {
-  background: #4D427D;
+.btn-close-letter:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+}
+.letter-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+.letter-paper {
+  position: relative;
+  width: 90%;
+  max-width: 450px;
+  height: 75%;
+  max-height: 600px;
+  background: #FFF9F0; /* Soft cream */
+  border-radius: 8px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  padding: 35px 25px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transform: translateY(100px) scale(0.8);
+  opacity: 0;
+  transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.5s ease;
+}
+.letter-paper::-webkit-scrollbar {
+  width: 6px;
+}
+.letter-paper::-webkit-scrollbar-track {
+  background: transparent;
+}
+.letter-paper::-webkit-scrollbar-thumb {
+  background: #E8D5C4;
+  border-radius: 3px;
+}
+#letter-scene.active .letter-paper {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.letter-content {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  letter-spacing: 0.2px;
+  color: #4A3B43;
+}
+.letter-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 28px;
+  font-weight: 700;
+  color: #D32F2F;
+  display: block;
 }
 
 /* Confetti */

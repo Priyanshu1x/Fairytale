@@ -223,11 +223,77 @@ function triggerSuccess(stream, jsNode, audioContext) {
   }, 6000);
   
   // Open Letter listener
-  document.getElementById('btn-open-letter').addEventListener('click', () => {
-    console.log("Opening letter...");
-    // Future integration
-    alert("Opening the letter... (Next feature!)");
+  document.getElementById('envelope-container').addEventListener('click', () => {
+    if (!envelopeContainer.classList.contains('opening')) {
+      envelopeContainer.classList.add('opening');
+      
+      // Wait for the envelope opening animation, then show letter scene
+      setTimeout(() => {
+        document.getElementById('letter-scene').classList.add('active');
+        
+        // Start typewriter effect after a short delay
+        setTimeout(() => {
+          typeWriter();
+        }, 1000);
+        
+      }, 1500); // 1.5s allows flap to open
+    } else {
+      // If already opened, just show the letter scene again instantly
+      document.getElementById('letter-scene').classList.add('active');
+    }
   });
+
+  // Close letter listener
+  document.getElementById('btn-close-letter').addEventListener('click', () => {
+    document.getElementById('letter-scene').classList.remove('active');
+  });
+}
+
+const letterLines = [
+  { text: "Dear Lucky 💌,", class: "letter-title", delayAfter: 1500, speed: 70 }, // Slower for title
+  { text: "Happy Birthday ❤️", delayAfter: 2000, speed: 50 }, // Pause after this
+  { text: "I hope this year brings you lots of happiness, good memories, and countless reasons to smile.", delayAfter: 800, speed: 35 },
+  { text: "May you get closer to everything you wish for, and may the coming year be kinder, brighter, and even better than the last one.", delayAfter: 800, speed: 35 },
+  { text: "Take care of yourself, enjoy your special day, eat lots of cake 🎂, and make some beautiful memories today.", delayAfter: 800, speed: 35 },
+  { text: "Thank you for taking the time to go through this little birthday surprise. I spent a lot of time making it, and I hope it made you smile, even if just a little. ✨", delayAfter: 1500, speed: 35 },
+  { text: "And one more thing...", delayAfter: 2500, speed: 50 }, // Pause after this
+  { text: "If you really liked this gift and want to say thank you, don't just send a text 😭", delayAfter: 800, speed: 35 },
+  { text: "Give me a call sometime and tell me yourself. 📞✨", delayAfter: 1000, speed: 35 },
+  { text: "I'd love to hear your reaction.", delayAfter: 2000, speed: 40 }, // Pause after this
+  { text: "Happy Birthday once again 🎂💖", delayAfter: 1000, speed: 40 },
+  { text: "Priyanshu", delayAfter: 0, speed: 50 }
+];
+
+async function typeWriter() {
+  const contentDiv = document.getElementById('letter-content');
+  const paper = document.getElementById('letter-paper');
+  
+  for (let i = 0; i < letterLines.length; i++) {
+    const lineObj = letterLines[i];
+    const p = document.createElement('p');
+    if (lineObj.class) {
+      p.className = lineObj.class;
+    } else {
+      // Add a small bottom margin to regular paragraphs
+      p.style.marginBottom = "15px";
+    }
+    contentDiv.appendChild(p);
+    
+    // Array.from safely splits string by Unicode characters (so emojis don't break)
+    const chars = Array.from(lineObj.text);
+    const speed = lineObj.speed || 35;
+    
+    for (let char of chars) {
+      p.innerHTML += char;
+      // Scroll down as new text appears
+      paper.scrollTop = paper.scrollHeight;
+      // Wait for 'speed' milliseconds
+      await new Promise(r => setTimeout(r, speed));
+    }
+    
+    // Wait before starting the next line
+    await new Promise(r => setTimeout(r, lineObj.delayAfter));
+  }
 }
 
 function triggerFireworks() {

@@ -4,9 +4,12 @@
   <meta charset="UTF-8">
   <!-- Prevent zooming on mobile for app-like feel -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
   <title>Happy Birthday!</title>
   <link rel="stylesheet" href="birthday.css">
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
 </head>
 <body>
   
@@ -222,13 +225,12 @@
         <div class="cake">
           <!-- Envelope inside top layer -->
           <div class="envelope-container" id="envelope-container">
+            <div class="envelope-text">💌 Open My Letter</div>
             <div class="envelope" id="envelope">
-              <div class="envelope-flap"></div>
-              <div class="envelope-body">
-                <div class="envelope-seal">♥</div>
-              </div>
+              <div class="envelope-flap" id="envelope-flap"></div>
+              <div class="envelope-body"></div>
+              <div class="envelope-seal" id="envelope-seal">❤️</div>
             </div>
-            <button class="btn-open-letter" id="btn-open-letter">💌 Open Letter</button>
           </div>
           
           <div class="layer layer-top">
@@ -259,7 +261,15 @@
       </button>
       <div class="mic-helper">👉 Tap here and then blow the candle</div>
     </div>
+  </div>
 
+  <!-- Scene 3: Open Letter Scene -->
+  <div class="scene" id="letter-scene">
+    <div class="letter-overlay"></div>
+    <button class="btn-close-letter" id="btn-close-letter">×</button>
+    <div class="letter-paper" id="letter-paper">
+      <div class="letter-content" id="letter-content"></div>
+    </div>
   </div>
 
   <script src="birthday.js"></script>
