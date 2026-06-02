@@ -58,13 +58,77 @@ body, html {
 }
 
 /* Orientation Queries */
-@media (orientation: portrait) {
-  #birthday-scene { display: none !important; }
-}
+#rotate-overlay { display: none !important; }
+#birthday-scene { display: flex; }
 
-@media (orientation: landscape) {
-  #rotate-overlay { display: none !important; }
-  #birthday-scene { display: flex; }
+@media (orientation: portrait), (max-width: 768px) {
+  #stage {
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100vh;
+    max-height: none;
+    max-width: 100vw;
+    padding: 12vh 0 10vh 0;
+  }
+
+  .left-section, .right-section {
+    display: contents;
+  }
+
+  .text-container {
+    order: 1;
+    margin-bottom: 5vh;
+  }
+
+  .frame {
+    order: 2;
+    width: clamp(160px, 45vw, 280px);
+    margin-bottom: 4vh;
+  }
+
+  .date-pill {
+    order: 3;
+    margin-bottom: 2vh;
+  }
+
+  .name-plate {
+    order: 4;
+    margin-top: 0;
+  }
+
+  .garland {
+    width: 45%;
+  }
+
+  .balloon-1 {
+    top: 38vh;
+    left: 8vw;
+    width: clamp(70px, 20vw, 120px);
+  }
+
+  .balloon-2 {
+    top: 44vh;
+    right: 8vw;
+    width: clamp(70px, 20vw, 120px);
+  }
+
+  .happy-text {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+
+  .birthday-text {
+    font-size: clamp(3rem, 14vw, 5rem);
+  }
+
+  .birthday-cap {
+    width: clamp(60px, 18vw, 90px);
+    top: -25%;
+    right: 0%;
+  }
+
+  .btn-next {
+    bottom: 4vh;
+  }
 }
 
 /* --- BIRTHDAY SCENE --- */
