@@ -399,7 +399,7 @@ h1 span {
     #birthday-scene, #rotate-overlay { display: none !important; }
     #mobile-card.mobile-only {
         display: flex !important;
-        background: linear-gradient(180deg, #F8BBD0 0%, #F6AFCB 30%, #C9B6FF 70%, #B9A8F5 100%);
+        background: linear-gradient(135deg, #ffe5f1 0%, #f4d9f6 100%);
         width: 100vw;
         height: 100svh;
         overflow: hidden;
@@ -407,359 +407,165 @@ h1 span {
         padding: 0;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
-        animation: mobileBgFadeIn 0.6s ease-out forwards;
+        justify-content: center;
+        gap: clamp(8px, 1.5vh, 14px);
         position: fixed;
         top: 0; left: 0;
         z-index: 10000;
     }
-            /* Section 1: Top Area & Bunting */
-            .bunting-container {
-                position: absolute;
-                top: 0;
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                pointer-events: none;
-                z-index: 20;
-            }
-            .bunting {
-                width: 40vw;
-                max-width: 200px;
-                height: clamp(45px, 6vh, 55px);
-                opacity: 0;
-                animation: buntingSlideDown 0.8s cubic-bezier(0.28, 0.84, 0.42, 1.2) 0.6s forwards;
-            }
-            .bunting.right {
-                animation: buntingSlideDownRight 0.8s cubic-bezier(0.28, 0.84, 0.42, 1.2) 0.6s forwards;
-            }
 
-            @keyframes buntingSlideDown {
-                0% { transform: translateY(-100%); opacity: 0; }
-                100% { transform: translateY(0); opacity: 1; }
-            }
-            @keyframes buntingSlideDownRight {
-                0% { transform: translateY(-100%) scaleX(-1); opacity: 0; }
-                100% { transform: translateY(0) scaleX(-1); opacity: 1; }
-            }
+    /* 1. Bunting */
+    .m-bunting-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        z-index: 5;
+    }
+    .m-bunting {
+        width: 40vw;
+        max-width: 200px;
+        height: clamp(40px, 6vh, 50px);
+    }
+    .m-bunting.right {
+        transform: scaleX(-1);
+    }
 
-            /* Section 2: Title */
-            .mobile-title {
-                margin-top: clamp(90px, 12vh, 110px);
-                width: 75%;
-                text-align: center;
-                font-size: clamp(34px, 10vw, 48px);
-                font-weight: 900;
-                line-height: 1.1;
-                position: relative;
-                margin-bottom: clamp(15px, 3.5vh, 25px);
-                z-index: 5;
-            }
-            .mobile-title span {
-                display: block;
-                font-family: 'Poppins', sans-serif;
-                -webkit-text-stroke: 2px #3B2A3F;
-                text-shadow: 3px 4px 0 #F48FB1, 0px 5px 8px rgba(59, 42, 63, 0.4);
-                opacity: 0;
-                animation: titlePopIn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            }
-            .mobile-title span:nth-of-type(1) { 
-                color: #ffffff; 
-                animation-delay: 1.4s;
-            }
-            .mobile-title span:nth-of-type(2) { 
-                color: #FFF0F5; 
-                animation-delay: 1.8s;
-            }
+    /* 2. Title */
+    .m-title {
+        text-align: center;
+        font-family: 'Fredoka One', cursive;
+        line-height: 1.1;
+        position: relative;
+        /* Slight push down to avoid bunting */
+        margin-top: clamp(20px, 6vh, 40px);
+    }
+    .m-title-happy {
+        font-size: clamp(32px, 8vw, 42px);
+        color: #fff;
+        text-shadow: 2px 2px 0 #333, -2px -2px 0 #333, 2px -2px 0 #333, -2px 2px 0 #333, 0px 4px 0px #333;
+    }
+    .m-title-birthday {
+        font-size: clamp(36px, 9vw, 48px);
+        color: #ff7da9;
+        text-shadow: 2px 2px 0 #333, -2px -2px 0 #333, 2px -2px 0 #333, -2px 2px 0 #333, 0px 4px 0px #333;
+    }
+    .m-party-hat {
+        position: absolute;
+        top: -15px;
+        right: -10px;
+        width: clamp(35px, 8vw, 45px);
+        height: auto;
+        transform: rotate(15deg);
+    }
 
-            @keyframes titlePopIn {
-                0% { transform: scale(0.6) translateY(20px); opacity: 0; }
-                100% { transform: scale(1) translateY(0); opacity: 1; }
-            }
-            .party-hat {
-                position: absolute;
-                top: -25px;
-                right: -5px;
-                width: clamp(38px, 9vw, 48px);
-                height: auto;
-                filter: drop-shadow(2px 4px 4px rgba(59, 42, 63, 0.4));
-                opacity: 0;
-                transform-origin: bottom center;
-                animation: hatFallIn 0.8s cubic-bezier(0.28, 0.84, 0.42, 1.2) 2.4s forwards;
-            }
-            @keyframes hatFallIn {
-                0% { transform: translateY(-80px) rotate(0deg); opacity: 0; }
-                100% { transform: translateY(0) rotate(20deg); opacity: 1; }
-            }
+    /* 3. Date Pill */
+    .m-date-pill {
+        background: #ff7da9;
+        border: 2px solid #333;
+        border-radius: 40px;
+        padding: clamp(6px, 1vh, 10px) clamp(16px, 4vw, 24px);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 4px 0 #333;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 900;
+        color: #333;
+        font-size: clamp(14px, 4vw, 16px);
+    }
+    .m-star-icon {
+        color: #333;
+    }
 
-            /* Section 3: Date Pill */
-            .m-date-pill {
-                width: clamp(170px, 45vw, 190px);
-                height: clamp(34px, 5vh, 38px);
-                background: #F8B4D0;
-                border: 1px solid rgba(255, 255, 255, 0.4);
-                border-radius: 50px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-family: 'Poppins', sans-serif;
-                font-weight: 600;
-                color: #4A3A4A;
-                font-size: 14px;
-                margin-bottom: clamp(20px, 4vh, 30px);
-                z-index: 5;
-                box-shadow: 0 4px 10px rgba(247, 168, 200, 0.4);
-                opacity: 0;
-                animation: datePillFadeUp 0.6s ease-out 3.0s forwards;
-            }
-            @keyframes datePillFadeUp {
-                0% { transform: translateY(15px); opacity: 0; }
-                100% { transform: translateY(0); opacity: 1; }
-            }
+    /* 4. Bear Frame Wrapper */
+    .m-bear-frame {
+        position: relative;
+        width: clamp(210px, 62vw, 260px);
+        aspect-ratio: 1/1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+    }
+    .m-bear-circle {
+        width: 100%;
+        height: 100%;
+        background: #FFFDF8;
+        border: 4px solid #333;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .m-teddy-img {
+        width: 70%;
+        height: auto;
+        object-fit: contain;
+        transform: translateY(10%);
+    }
+    .m-sparkle {
+        position: absolute;
+        line-height: 1;
+    }
+    .m-decor {
+        position: absolute;
+        z-index: 2;
+    }
+    .m-balloon-left {
+        top: 25%;
+        left: -15%;
+        width: clamp(40px, 12vw, 55px);
+    }
+    .m-balloon-right {
+        top: 15%;
+        right: -15%;
+        width: clamp(40px, 12vw, 55px);
+    }
+    .m-smiley {
+        bottom: 5%;
+        left: -10%;
+        width: clamp(35px, 10vw, 45px);
+    }
+    .m-heart {
+        top: 10%;
+        right: -10%;
+        width: clamp(40px, 11vw, 50px);
+    }
 
-            /* Section 4: Bear Circle */
-            .bear-circle-wrapper {
-                position: relative;
-                width: clamp(220px, 68vw, 320px);
-                aspect-ratio: 1/1;
-                margin-bottom: clamp(15px, 3vh, 25px);
-                z-index: 5;
-            }
-            .bear-circle {
-                width: 100%;
-                height: 100%;
-                background: #FFFDF8;
-                border: 3px solid #222;
-                border-radius: 50%;
-                display: flex;
-                justify-content: center;
-                align-items: flex-end;
-                position: relative;
-                overflow: hidden;
-                opacity: 0;
-                transform: scale(0.6);
-                animation: circleScaleIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.5s forwards;
-            }
-            @keyframes circleScaleIn {
-                0% { transform: scale(0.6); opacity: 0; }
-                100% { transform: scale(1); opacity: 1; }
-            }
-            .bear-circle img {
-                align-self: center;
-                height: 68%;
-                object-fit: contain;
-                opacity: 0;
-                transform: translateY(10%) scale(0.7);
-                animation: bearPopUp 0.6s ease-out 4.1s forwards;
-            }
-            @keyframes bearPopUp {
-                0% { transform: translateY(10%) scale(0.7); opacity: 0; }
-                100% { transform: translateY(10%) scale(1); opacity: 1; }
-            }
-            .m-sparkle {
-                position: absolute;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                opacity: 0;
-                animation: starTwinkleFadeIn 0.5s ease-out forwards;
-                z-index: 10;
-            }
-            .m-sparkle svg {
-                width: 100%;
-                height: 100%;
-            }
-            .m-s1 { top: 22%; left: 15%; width: 14px; height: 14px; animation-delay: 4.7s; }
-            .m-s2 { top: 18%; right: 18%; width: 18px; height: 18px; animation-delay: 4.85s; }
-            .m-s3 { bottom: 28%; left: 20%; width: 16px; height: 16px; animation-delay: 4.8s; }
-            .m-s4 { bottom: 20%; right: 15%; width: 12px; height: 12px; animation-delay: 4.95s; }
-            
-            @keyframes starTwinkleFadeIn {
-                0% { transform: scale(0) rotate(-45deg); opacity: 0; }
-                70% { transform: scale(1.2) rotate(10deg); opacity: 1; }
-                100% { transform: scale(1) rotate(0deg); opacity: 1; }
-            }
-            
-            .smiley {
-                position: absolute;
-                bottom: 15%;
-                right: calc(100% - 8px);
-                width: clamp(38px, 11vw, 48px);
-                height: clamp(38px, 11vw, 48px);
-                z-index: 6;
-                opacity: 0;
-                transform: scale(0.8);
-                animation: 
-                    smileyPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 5.7s forwards,
-                    smileyFloat 3.2s ease-in-out 6.2s infinite alternate;
-            }
-            @keyframes smileyPop {
-                0% { transform: scale(0.8); opacity: 0; }
-                100% { transform: scale(1); opacity: 1; }
-            }
-            @keyframes smileyFloat {
-                0% { transform: translateY(0px) scale(1); }
-                100% { transform: translateY(-3px) scale(1); }
-            }
-            .m-heart-bubble {
-                position: absolute;
-                top: 25%;
-                left: calc(100% - 10px);
-                width: clamp(45px, 12vw, 55px);
-                height: clamp(45px, 12vw, 55px);
-                z-index: 6;
-                opacity: 0;
-                transform: scale(0.8);
-                animation: 
-                    heartPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 6.0s forwards,
-                    heartFloat 3.0s ease-in-out 6.5s infinite alternate;
-            }
-            @keyframes heartPop {
-                0% { transform: scale(0.8) rotate(-5deg); opacity: 0; }
-                100% { transform: scale(1) rotate(5deg); opacity: 1; }
-            }
-            @keyframes heartFloat {
-                0% { transform: translateY(0px) scale(1) rotate(5deg); }
-                100% { transform: translateY(-3px) scale(1) rotate(5deg); }
-            }
+    /* 5. Name Plate */
+    .m-name-plate {
+        background: #ff7da9;
+        border: 2px solid #333;
+        border-radius: 40px;
+        padding: clamp(6px, 1vh, 10px) clamp(16px, 4vw, 24px);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 4px 0 #333;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 900;
+        color: #333;
+        font-size: clamp(14px, 4vw, 16px);
+    }
+    .m-heart-icon {
+        color: #d32f2f;
+    }
 
-            /* Section 5: Balloons */
-            .mobile-balloon {
-                position: absolute;
-                width: clamp(35px, 10vw, 50px);
-                height: auto;
-                z-index: -1;
-            }
-            .mb-1 {
-                top: 25%;
-                right: calc(100% + 20px);
-                width: clamp(40px, 11vw, 50px);
-                opacity: 0;
-                transform: translateY(20px) rotate(-5deg);
-                animation: 
-                    balloonRise 0.8s ease-out 5.0s forwards,
-                    balloonFloat 3.5s ease-in-out 5.8s infinite alternate;
-            }
-            @keyframes balloonRise {
-                0% { transform: translateY(20px) rotate(-10deg); opacity: 0; }
-                100% { transform: translateY(0px) rotate(-5deg); opacity: 1; }
-            }
-            @keyframes balloonFloat {
-                0% { transform: translateY(0px) rotate(-5deg); }
-                100% { transform: translateY(-5px) rotate(-2deg); }
-            }
-            .mb-2 {
-                top: 15%;
-                left: calc(100% + 15px);
-                width: clamp(40px, 11vw, 50px);
-                opacity: 0;
-                transform: translateY(20px) rotate(15deg);
-                animation: 
-                    balloonRiseRightTop 0.8s ease-out 5.0s forwards,
-                    balloonFloatRightTop 3.8s ease-in-out 5.8s infinite alternate;
-            }
-            @keyframes balloonRiseRightTop {
-                0% { transform: translateY(20px) rotate(10deg); opacity: 0; }
-                100% { transform: translateY(0px) rotate(15deg); opacity: 1; }
-            }
-            @keyframes balloonFloatRightTop {
-                0% { transform: translateY(0px) rotate(15deg); }
-                100% { transform: translateY(-4px) rotate(12deg); }
-            }
-            .mb-3 {
-                bottom: 10%;
-                left: calc(100% + 5px);
-                width: clamp(30px, 9vw, 40px);
-                opacity: 0;
-                transform: translateY(20px) rotate(5deg);
-                animation: 
-                    balloonRiseRightBottom 0.8s ease-out 5.0s forwards,
-                    balloonFloatRightBottom 3.2s ease-in-out 5.8s infinite alternate;
-            }
-            @keyframes balloonRiseRightBottom {
-                0% { transform: translateY(20px) rotate(0deg); opacity: 0; }
-                100% { transform: translateY(0px) rotate(5deg); opacity: 1; }
-            }
-            @keyframes balloonFloatRightBottom {
-                0% { transform: translateY(0px) rotate(5deg); }
-                100% { transform: translateY(-3px) rotate(2deg); }
-            }
-
-            /* Section 6: Name Plate */
-            .m-name-plate {
-                width: clamp(170px, 50vw, 210px);
-                height: clamp(40px, 7vh, 50px);
-                background: #FFB6D5;
-                border: 2px solid rgba(255, 255, 255, 0.4);
-                border-radius: 50px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 12px;
-                font-weight: 700;
-                color: #4A3A4A;
-                font-size: clamp(16px, 5vw, 22px);
-                margin: 0 auto clamp(15px, 3vh, 20px) auto;
-                z-index: 5;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1), inset 0 3px 0 #FFD6E7;
-                opacity: 0;
-                transform: translateY(15px);
-                animation: namePlateFadeUp 0.5s ease-out 6.3s forwards;
-            }
-            @keyframes namePlateFadeUp {
-                0% { transform: translateY(15px); opacity: 0; }
-                100% { transform: translateY(0); opacity: 1; }
-            }
-
-            /* Section 7: Next Button */
-            .next-btn {
-                width: clamp(180px, 50vw, 220px);
-                height: clamp(48px, 8vh, 56px);
-                background: #4A3A6A;
-                border: none;
-                border-radius: 50px;
-                color: #FFFFFF;
-                font-family: 'Poppins', sans-serif;
-                font-weight: 700;
-                font-size: clamp(16px, 5vw, 20px);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                cursor: pointer;
-                z-index: 5;
-                margin: clamp(18px, 4vh, 25px) auto clamp(20px, 4vh, 30px) auto;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-                transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-                opacity: 0;
-                transform: translateY(15px);
-                animation: nextBtnFadeUp 0.5s ease-out 6.8s forwards;
-            }
-            .next-btn:active {
-                transform: translateY(0) scale(0.97) !important;
-                background: #5A4580;
-            }
-            @media (hover: hover) and (pointer: fine) {
-                .next-btn:hover {
-                    background: #5A4580;
-                    transform: translateY(0) scale(1.03) !important;
-                    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-                }
-                .next-btn:active {
-                    transform: translateY(0) scale(0.97) !important;
-                }
-            }
-            @keyframes nextBtnFadeUp {
-                0% { transform: translateY(15px); opacity: 0; }
-                100% { transform: translateY(0); opacity: 1; }
-            }
-
-            /* Bottom Clouds */
-            .clouds-container {
-                display: none !important;
-            }
-            .clouds-container svg {
-                width: 100%;
-                height: 100%;
-                display: block;
-            }
-        }
+    /* 6. Next Button */
+    .m-next-btn {
+        background: #fff;
+        border: 2px solid #333;
+        border-radius: 40px;
+        padding: clamp(10px, 1.5vh, 14px) clamp(30px, 8vw, 40px);
+        font-family: 'Fredoka One', cursive;
+        font-size: clamp(16px, 4.5vw, 18px);
+        color: #333;
+        box-shadow: 0 4px 0 #333;
+        margin-bottom: clamp(10px, 2vh, 20px);
+    }
+}
