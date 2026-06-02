@@ -162,12 +162,13 @@ function initMicrophone() {
         
         const average = values / length;
         
-        // We previously lowered it too much. Let's balance it.
-        // A direct blow into the mic usually causes clipping (peak near 255)
-        // Set a much higher threshold so background noise doesn't trigger it.
-        if (average > 75 || peak > 240) {
+        // Mobile phones often have huge peaks from just handling/tapping the phone.
+        // By completely removing the "peak" check, we stop false positives from taps.
+        // We now only look for a SUSTAINED high average volume (continuous blowing).
+        if (average > 65) {
           blowFrames++;
-          if (blowFrames > 5) {
+          // Require about ~400ms of sustained high volume
+          if (blowFrames > 8) {
             // Blow detected!
             triggerSuccess(stream, javascriptNode, audioContext);
           }
