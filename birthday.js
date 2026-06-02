@@ -122,7 +122,14 @@ function initMicrophone() {
     if (isListening) return;
     
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Turn off audio processing on mobile to capture raw blowing noise
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          echoCancellation: false,
+          noiseSuppression: false,
+          autoGainControl: false
+        } 
+      });
       isListening = true;
       btnMic.classList.add('listening');
       micText.textContent = "Listening...";
@@ -145,23 +152,28 @@ function initMicrophone() {
         const array = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(array);
         let values = 0;
+        let peak = 0;
         
         const length = array.length;
         for (let i = 0; i < length; i++) {
-          values += (array[i]);
+          values += array[i];
+          if (array[i] > peak) peak = array[i];
         }
         
         const average = values / length;
         
-        // If volume is high enough, consider it a blow
-        if (average > 60) {
+        // Blowing into a mic causes a loud, low-frequency rumble.
+        // We lowered the threshold (average > 30) and check for peaks (> 150)
+        // to make it more sensitive for phone microphones.
+        if (average > 30 || peak > 150) {
           blowFrames++;
-          if (blowFrames > 5) {
+          if (blowFrames > 3) {
             // Blow detected!
             triggerSuccess(stream, javascriptNode, audioContext);
           }
         } else {
-          blowFrames = 0;
+          // Slowly decay rather than instant reset to make it more forgiving
+          blowFrames = Math.max(0, blowFrames - 1);
         }
       };
       
