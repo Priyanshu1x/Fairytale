@@ -115,21 +115,13 @@ function initMicrophone() {
   let audioContext;
   let analyser;
   let microphone;
-  let javascriptNode;
   let isListening = false;
 
   btnMic.addEventListener('click', async () => {
     if (isListening) return;
     
     try {
-      // Turn off audio processing on mobile to capture raw blowing noise
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        audio: {
-          echoCancellation: false,
-          noiseSuppression: false,
-          autoGainControl: false
-        } 
-      });
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
       isListening = true;
       btnMic.classList.add('listening');
       micText.textContent = "Listening...";
@@ -137,46 +129,36 @@ function initMicrophone() {
       audioContext = new (window.AudioContext || window.webkitAudioContext)();
       analyser = audioContext.createAnalyser();
       microphone = audioContext.createMediaStreamSource(stream);
-      javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
-      
-      analyser.smoothingTimeConstant = 0.8;
-      analyser.fftSize = 1024;
-      
       microphone.connect(analyser);
-      analyser.connect(javascriptNode);
-      javascriptNode.connect(audioContext.destination);
       
-      let blowFrames = 0;
+      analyser.fftSize = 256;
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
       
-      javascriptNode.onaudioprocess = () => {
-        const array = new Uint8Array(analyser.frequencyBinCount);
-        analyser.getByteFrequencyData(array);
-        let values = 0;
-        let peak = 0;
+      let blowDetected = false;
+      
+      function detectBlow() {
+        if (blowDetected) return;
         
-        const length = array.length;
-        for (let i = 0; i < length; i++) {
-          values += array[i];
-          if (array[i] > peak) peak = array[i];
+        analyser.getByteFrequencyData(dataArray);
+        let sum = 0;
+        
+        for (let i = 0; i < bufferLength; i++) {
+          sum += dataArray[i];
         }
         
-        const average = values / length;
+        const average = sum / bufferLength;
         
-        // Mobile phones often have huge peaks from just handling/tapping the phone.
-        // By completely removing the "peak" check, we stop false positives from taps.
-        // We now only look for a SUSTAINED high average volume (continuous blowing).
+        // Instant trigger on high volume, same as the cinematic candle
         if (average > 65) {
-          blowFrames++;
-          // Require about ~400ms of sustained high volume
-          if (blowFrames > 8) {
-            // Blow detected!
-            triggerSuccess(stream, javascriptNode, audioContext);
-          }
+          blowDetected = true;
+          triggerSuccess(stream, null, audioContext);
         } else {
-          // Slowly decay rather than instant reset to make it more forgiving
-          blowFrames = Math.max(0, blowFrames - 1);
+          requestAnimationFrame(detectBlow);
         }
-      };
+      }
+      
+      detectBlow();
       
     } catch (err) {
       console.error("Microphone access denied or error:", err);
