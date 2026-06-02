@@ -162,12 +162,11 @@ function initMicrophone() {
         
         const average = values / length;
         
-        // Blowing into a mic causes a loud, low-frequency rumble.
-        // We lowered the threshold (average > 30) and check for peaks (> 150)
-        // to make it more sensitive for phone microphones.
-        if (average > 30 || peak > 150) {
+        // We previously lowered it too much. Let's balance it.
+        // A direct blow should easily exceed an average of 45 or peak of 200.
+        if (average > 45 || peak > 200) {
           blowFrames++;
-          if (blowFrames > 3) {
+          if (blowFrames > 4) {
             // Blow detected!
             triggerSuccess(stream, javascriptNode, audioContext);
           }
