@@ -1,84 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday — A Fairytale</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>" />
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Inter:wght@300;400&display=swap');
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #000;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      overflow: hidden;
-      text-align: center;
-      padding: 20px;
-    }
-    .birthday-container {
-      opacity: 0;
-      animation: fadeUp 1.5s cubic-bezier(.25,.46,.45,.94) 0.3s forwards;
-    }
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-      from { opacity: 0; transform: translateY(40px); }
-    }
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      margin-bottom: 16px;
-      background: linear-gradient(135deg, #fff 0%, #d4a853 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    p {
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
-      color: #b3b3b3;
-      font-style: italic;
-      max-width: 500px;
-      line-height: 1.8;
-    }
-    .heart {
-      font-size: 3rem;
-      margin-top: 30px;
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
-    .back-link {
-      margin-top: 40px;
-      color: #E50914;
-      font-size: 0.85rem;
-      text-decoration: none;
-      border: 1px solid rgba(229,9,20,0.3);
-      padding: 10px 24px;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-    }
-    .back-link:hover {
-      background: rgba(229,9,20,0.15);
-      border-color: #E50914;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <!-- Prevent zooming on mobile for app-like feel -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Happy Birthday!</title>
+  <link rel="stylesheet" href="birthday.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="birthday-container">
-    <h1>Happy Birthday</h1>
-    <p>
-      This page is the next chapter of your fairytale.<br/>
-      Fill it with whatever makes her smile.
-    </p>
-    <div class="heart">❤️</div>
-    <a class="back-link" href="index.html">← Back to Movie</a>
+  
+  <!-- Rotate Device Overlay (Portrait Only) -->
+  <div id="rotate-overlay">
+    <div class="rotate-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+        <path d="M12 18h.01"></path>
+        <path d="M19 12h-2"></path>
+        <path d="M5 12H3"></path>
+        <path d="M12 6V4"></path>
+      </svg>
+    </div>
+    <p>Please rotate your phone for the best birthday surprise 🎂</p>
   </div>
+
+  <!-- Main Birthday Scene (16:9 Landscape) -->
+  <div id="birthday-scene">
+    <div id="stage">
+      
+      <!-- Background elements -->
+      <div class="bg-stars"></div>
+      
+      <!-- Garlands (Jhaleri) -->
+      <div class="garland garland-left">
+        <svg viewBox="0 0 200 100" class="jhaleri">
+          <path d="M0 0 Q 100 40 200 10" fill="none" stroke="#f4a7c1" stroke-width="2"/>
+          <polygon points="10,6 25,45 40,11" fill="#ff7da9" />
+          <polygon points="50,13 65,52 80,16" fill="#ffa7c4" />
+          <polygon points="90,18 105,57 120,19" fill="#ff7da9" />
+          <polygon points="130,19 145,56 160,16" fill="#ffa7c4" />
+          <polygon points="170,14 185,50 200,9" fill="#ff7da9" />
+        </svg>
+      </div>
+      <div class="garland garland-right">
+        <svg viewBox="0 0 200 100" class="jhaleri">
+          <path d="M0 10 Q 100 40 200 0" fill="none" stroke="#f4a7c1" stroke-width="2"/>
+          <polygon points="0,9 15,50 30,14" fill="#ffa7c4" />
+          <polygon points="40,16 55,56 70,19" fill="#ff7da9" />
+          <polygon points="80,19 95,57 110,18" fill="#ffa7c4" />
+          <polygon points="120,16 135,52 150,13" fill="#ff7da9" />
+          <polygon points="160,11 175,45 190,6" fill="#ffa7c4" />
+        </svg>
+      </div>
+
+      <!-- Left Side (Text & Cap) -->
+      <div class="left-section">
+        <div class="text-container">
+          <h1 class="happy-text">
+            <span>H</span><span>a</span><span>p</span><span>p</span><span>y</span>
+          </h1>
+          <h1 class="birthday-text">
+            <span>B</span><span>i</span><span>r</span><span>t</span><span>h</span><span>d</span><span>a</span><span>y</span>
+          </h1>
+          
+          <div class="birthday-cap">
+            <svg viewBox="0 0 100 100">
+              <polygon points="20,80 50,20 80,80" fill="#ff7da9" stroke="#333" stroke-width="4" stroke-linejoin="round"/>
+              <circle cx="50" cy="20" r="10" fill="#ffa7c4" stroke="#333" stroke-width="4"/>
+              <path d="M20,80 Q50,90 80,80" fill="#333"/>
+              <!-- polka dots -->
+              <circle cx="50" cy="45" r="5" fill="#333"/>
+              <circle cx="35" cy="65" r="4" fill="#333"/>
+              <circle cx="65" cy="65" r="4" fill="#333"/>
+              <circle cx="42" cy="30" r="3" fill="#333"/>
+              <circle cx="58" cy="30" r="3" fill="#333"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="date-pill">
+          <span class="star-icon">★</span>
+          <span class="date-text" contenteditable="true">17 June 2005</span>
+          <span class="star-icon">★</span>
+        </div>
+      </div>
+
+      <!-- Right Side (Bear & Balloons) -->
+      <div class="right-section">
+        <!-- Pink Balloons -->
+        <div class="balloon balloon-1">
+          <svg viewBox="0 0 100 150">
+            <path d="M50 10 C 15 10, 15 60, 50 85 C 85 60, 85 10, 50 10" fill="#ffa7c4" stroke="#333" stroke-width="3"/>
+            <path d="M45 85 L 55 85 L 50 93 Z" fill="#ffa7c4" stroke="#333" stroke-width="3"/>
+            <path d="M50 93 Q 40 120, 60 150" fill="none" stroke="#333" stroke-width="2"/>
+            <path d="M35 30 C 40 20, 55 25, 55 25" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="balloon balloon-2">
+          <svg viewBox="0 0 100 150">
+            <path d="M50 10 C 15 10, 15 60, 50 85 C 85 60, 85 10, 50 10" fill="#ff7da9" stroke="#333" stroke-width="3"/>
+            <path d="M45 85 L 55 85 L 50 93 Z" fill="#ff7da9" stroke="#333" stroke-width="3"/>
+            <path d="M50 93 Q 60 120, 40 150" fill="none" stroke="#333" stroke-width="2"/>
+            <path d="M35 30 C 40 20, 55 25, 55 25" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div class="frame">
+          <div class="bear-container">
+            <!-- Bear Image -->
+            <img src="assets/cute_teddy_bear.png" alt="Cute Teddy Bear" class="teddy-bear-img">
+          </div>
+          
+          <!-- Smiley Object -->
+          <div class="smiley-face">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" fill="#fff" stroke="#333" stroke-width="5"/>
+              <circle cx="35" cy="40" r="5" fill="#333"/>
+              <circle cx="65" cy="40" r="5" fill="#333"/>
+              <path d="M 30 60 Q 50 80, 70 60" fill="none" stroke="#333" stroke-width="6" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <!-- Heart Bubble -->
+          <div class="heart-bubble">
+            <svg viewBox="0 0 100 100">
+              <path d="M 10 30 C 10 10, 90 10, 90 30 C 90 55, 70 65, 50 80 L 35 95 L 35 75 C 15 65, 10 50, 10 30 Z" fill="#2d3359" stroke="#333" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M 35 35 C 35 25, 50 25, 50 40 C 50 25, 65 25, 65 35 C 65 50, 50 60, 50 60 C 50 60, 35 50, 35 35 Z" fill="#ffa7c4"/>
+            </svg>
+          </div>
+          
+          <!-- Small corner badge -->
+          <div class="badge">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="45" fill="#ffa7c4" stroke="#333" stroke-width="4"/>
+              <path d="M 35 45 C 35 30, 50 30, 50 50 C 50 30, 65 30, 65 45 C 65 65, 50 75, 50 75 C 50 75, 35 65, 35 45 Z" fill="#d32f2f"/>
+              <!-- Small dots around -->
+              <circle cx="20" cy="50" r="3" fill="#333"/>
+              <circle cx="80" cy="50" r="3" fill="#333"/>
+              <circle cx="50" cy="20" r="3" fill="#333"/>
+              <circle cx="50" cy="80" r="3" fill="#333"/>
+            </svg>
+          </div>
+        </div>
+        
+        <div class="name-plate">
+          <span class="heart-icon">♥</span>
+          <span class="name-text" contenteditable="true">LUCKY</span>
+          <span class="heart-icon">♥</span>
+        </div>
+      </div>
+
+      <!-- Next Button -->
+      <button class="btn-next" id="btn-next">Next →</button>
+
+    </div>
+  </div>
+
+  <script src="birthday.js"></script>
 </body>
 </html>

@@ -261,9 +261,8 @@ ul, ol {
 }
 
 .navbar.scrolled {
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.98);
+  /* Removed backdrop-filter to prevent screen shaking glitch with underlying canvas/grain */
 }
 
 /* Nav Left */
@@ -1215,10 +1214,10 @@ ul, ol {
 
   /* Hero */
   .hero {
-    align-items: center;
-    padding-bottom: 0;
-    min-height: 100vh;
-    min-height: 100dvh;
+    align-items: flex-end;
+    padding-bottom: 15vh;
+    min-height: 95vh;
+    min-height: 95dvh;
   }
 
   .hero-content {
