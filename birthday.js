@@ -163,10 +163,11 @@ function initMicrophone() {
         const average = values / length;
         
         // We previously lowered it too much. Let's balance it.
-        // A direct blow should easily exceed an average of 45 or peak of 200.
-        if (average > 45 || peak > 200) {
+        // A direct blow into the mic usually causes clipping (peak near 255)
+        // Set a much higher threshold so background noise doesn't trigger it.
+        if (average > 75 || peak > 240) {
           blowFrames++;
-          if (blowFrames > 4) {
+          if (blowFrames > 5) {
             // Blow detected!
             triggerSuccess(stream, javascriptNode, audioContext);
           }
