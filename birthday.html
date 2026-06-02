@@ -170,6 +170,98 @@
     </div>
   </div>
 
+  <!-- Cake Scene -->
+  <div id="cake-scene" style="opacity: 0; pointer-events: none;">
+    <!-- Sky background -->
+    <div class="sky-elements">
+      <div class="moon"></div>
+      <div class="stars-container"></div>
+      <div class="shooting-stars">
+        <div class="shooting-star st-1"></div>
+        <div class="shooting-star st-2"></div>
+      </div>
+      <div class="clouds">
+        <div class="cloud c-1"></div>
+        <div class="cloud c-2"></div>
+      </div>
+    </div>
+    
+    <!-- Skyline -->
+    <div class="skyline">
+      <!-- We will create simple rectangular buildings using CSS -->
+      <div class="building b-1"></div>
+      <div class="building b-2"></div>
+      <div class="building b-3"></div>
+      <div class="building b-4"></div>
+      <div class="building b-5"></div>
+      <div class="building b-6"></div>
+    </div>
+
+    <!-- Fireworks Container -->
+    <div class="fireworks-container" id="fireworks-container"></div>
+
+    <!-- Text Sequence -->
+    <div class="story-text-container">
+      <div class="story-text step-1">Close your eyes...</div>
+      <div class="story-text step-2">Make a wish...</div>
+      <div class="story-text step-3">Now blow the candle ✨</div>
+    </div>
+    
+    <!-- Success Sequence Text -->
+    <div class="success-text-container">
+      <div class="success-text success-1">Yayyyy! 🎉</div>
+      <div class="success-text success-2">Wish locked successfully ✨</div>
+    </div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confetti-container"></div>
+
+    <!-- Cake -->
+    <div class="cake-container">
+      <div class="cake-bounce-wrapper">
+        <div class="cake">
+          <!-- Envelope inside top layer -->
+          <div class="envelope-container" id="envelope-container">
+            <div class="envelope" id="envelope">
+              <div class="envelope-flap"></div>
+              <div class="envelope-body">
+                <div class="envelope-seal">♥</div>
+              </div>
+            </div>
+            <button class="btn-open-letter" id="btn-open-letter">💌 Open Letter</button>
+          </div>
+          
+          <div class="layer layer-top">
+            <div class="frosting"></div>
+            <div class="heart-deco deco-1">♥</div>
+            <div class="heart-deco deco-2">♥</div>
+          </div>
+          <div class="layer layer-bottom">
+            <div class="frosting"></div>
+            <div class="heart-deco deco-3">♥</div>
+            <div class="heart-deco deco-4">♥</div>
+            <div class="heart-deco deco-5">♥</div>
+          </div>
+          <div class="candle">
+            <div class="flame" id="flame"></div>
+            <div class="glow" id="flame-glow"></div>
+            <div class="smoke" id="smoke"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mic Button Section -->
+    <div class="mic-section">
+      <div class="bouncing-arrow">⬇</div>
+      <button class="btn-mic" id="btn-mic">
+        <span class="mic-icon">🎤</span> <span class="mic-text">Enable Microphone</span>
+      </button>
+      <div class="mic-helper">👉 Tap here and then blow the candle</div>
+    </div>
+
+  </div>
+
   <script src="birthday.js"></script>
 </body>
 </html>
