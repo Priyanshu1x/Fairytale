@@ -243,8 +243,13 @@ function triggerSuccess(stream, jsNode, audioContext) {
     }
   });
 
-  // Close letter listener
+  // Close letter listener (X button)
   document.getElementById('btn-close-letter').addEventListener('click', () => {
+    document.getElementById('letter-scene').classList.remove('active');
+  });
+
+  // Close letter listener (Tapping the background/overlay)
+  document.querySelector('.letter-overlay').addEventListener('click', () => {
     document.getElementById('letter-scene').classList.remove('active');
   });
 }
