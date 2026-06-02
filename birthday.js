@@ -1,77 +1,65 @@
 /* birthday.js */
 document.addEventListener('DOMContentLoaded', () => {
-  // Sequence:
-  // 1. Background already visible
-  // 2. Garlands drop (CSS animation starts automatically at 0.5s delay)
-  // 3. Text appears word by word/letter by letter
-  // 4. Cap falls
-  // 5. Teddy bear + balloons + name plate appear
-  // 6. Next button appears
-
-  const happySpans = document.querySelectorAll('.happy-text span');
-  const birthdaySpans = document.querySelectorAll('.birthday-text span');
+  const letters = document.querySelectorAll('.happy-text span, .birthday-text span');
   const datePill = document.querySelector('.date-pill');
+  const balloons = document.querySelectorAll('.balloon');
   const cap = document.querySelector('.birthday-cap');
   const frame = document.querySelector('.frame');
   const namePlate = document.querySelector('.name-plate');
   const nextBtn = document.querySelector('.btn-next');
 
-  // Initial delay waits for the garlands to finish dropping (1.5s total)
-  let delay = 1500; 
+  // Animation Timeline
+  // 1. Background is visible
+  // 2. Garlands drop immediately via CSS animation with 0.5s delay
+  
+  let delay = 1500; // Wait for garlands
 
-  // 3. Animate Text (letter by letter)
-  const animateText = (spans, startTime) => {
-    spans.forEach((span, i) => {
-      setTimeout(() => {
-        span.style.transition = 'opacity 0.4s, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        span.style.opacity = '1';
-        span.style.transform = 'translateY(0) scale(1)';
-      }, startTime + (i * 100));
-    });
-    return startTime + (spans.length * 100);
-  };
+  // 3. Text appears letter by letter
+  letters.forEach((letter, i) => {
+    setTimeout(() => {
+      letter.style.opacity = '1';
+      letter.style.transform = 'translateY(0) scale(1)';
+      letter.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    }, delay + (i * 100));
+  });
+  
+  delay += letters.length * 100 + 400;
 
-  delay = animateText(happySpans, delay);
-  delay += 200; // gap between words
-  delay = animateText(birthdaySpans, delay);
-
-  // Date pill appears alongside the text completion
-  setTimeout(() => {
-    datePill.style.transition = 'opacity 0.5s, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-    datePill.style.opacity = '1';
-    datePill.style.transform = 'translateY(0)';
-  }, delay);
-
-  // 4. Birthday cap falls
-  delay += 400;
+  // 4. Cap falls
   setTimeout(() => {
     cap.style.animation = 'dropCap 0.8s forwards cubic-bezier(0.5, 0, 0.3, 1.5)';
   }, delay);
 
-  // 5. Bear and frame appears (pop in)
-  delay += 600;
+  delay += 800;
+
+  // 5. Bear and frame appears
   setTimeout(() => {
     frame.style.animation = 'popIn 0.8s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-    
-    // Show balloons smoothly upwards
-    const balloons = document.querySelectorAll('.balloon');
-    balloons.forEach(b => b.classList.add('show'));
-    
-    // Name plate pops in shortly after the bear frame
-    setTimeout(() => {
-      namePlate.style.transition = 'opacity 0.5s, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-      namePlate.style.opacity = '1';
-      namePlate.style.transform = 'translateY(0)';
-    }, 400);
   }, delay);
 
-  // 6. Next button
-  delay += 1200;
+  // 6. Balloons rise up together with the bear
+  setTimeout(() => {
+    balloons.forEach(b => b.classList.add('show'));
+  }, delay + 200);
+
+  delay += 1000;
+
+  // 7. Date, name plate, Next button appear smoothly
+  setTimeout(() => {
+    datePill.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    datePill.style.opacity = '1';
+    datePill.style.transform = 'translateY(0)';
+    
+    namePlate.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    namePlate.style.opacity = '1';
+    namePlate.style.transform = 'translateY(0)';
+  }, delay);
+
   setTimeout(() => {
     nextBtn.classList.add('visible');
-  }, delay);
+  }, delay + 500);
 
-  // Next button click (Placeholder until next instruction)
+  // Next button click
   nextBtn.addEventListener('click', () => {
     console.log("Next clicked! Ready for the next instruction.");
   });
