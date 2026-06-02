@@ -1036,3 +1036,13 @@ h1 span {
   }
 }
 
+/* --- MOBILE SPECIFIC FIXES FOR CAKE SCENE --- */
+@media (orientation: portrait), (max-width: 768px) {
+  .cake-container {
+    bottom: 28%; /* Move cake up on phone */
+  }
+  .mic-section {
+    bottom: 10%; /* Move mic button up on phone */
+  }
+}
+
