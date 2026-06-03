@@ -114,6 +114,21 @@ body, html {
   content: '✦'; position: absolute; top: 75%; left: 85%; font-size: 15px; color: #444; opacity: 0.6;
 }
 
+/* Background Floating Balloons */
+.bg-balloon {
+  position: absolute;
+  bottom: -150px;
+  z-index: 0;
+  opacity: 0.25;
+  pointer-events: none;
+  animation: floatUpBg linear infinite;
+}
+@keyframes floatUpBg {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-60vh) rotate(15deg); }
+  100% { transform: translateY(-120vh) rotate(-5deg); }
+}
+
 /* --- GARLANDS --- */
 .garland {
   position: absolute;
@@ -227,6 +242,7 @@ h1 span {
 
 .frame {
   position: relative;
+  z-index: 5;
   width: clamp(180px, 32vw, 450px);
   aspect-ratio: 1;
   background: #FFFDF8;
@@ -306,7 +322,7 @@ h1 span {
 .balloon {
   position: absolute;
   width: clamp(60px, 12vw, 140px);
-  z-index: -1;
+  z-index: 1;
   opacity: 0;
   transform: translateY(50px);
   transition: opacity 0.8s ease, transform 0.8s ease;
@@ -1009,6 +1025,36 @@ h1 span {
   opacity: 0;
   transition: opacity 1.5s ease-in-out;
 }
+.butterfly {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 1;
+}
+.butterfly.show {
+  opacity: 1;
+}
+
+.butterfly .wing {
+  position: absolute;
+  width: 15px;
+  height: 25px;
+  background: var(--butterfly-color, #ff7da9);
+  border-radius: 50% 50% 10% 50%;
+  top: 2.5px;
+  transform-origin: right center;
+  animation: flapLeft 0.15s infinite alternate ease-in-out;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+}
+
+.butterfly .wing-right {
+  left: 15px;
+  border-radius: 50% 50% 50% 10%;
+  transform-origin: left center;
+  animation: flapRight 0.15s infinite alternate ease-in-out;
+}
 #letter-scene.active {
   pointer-events: auto;
   opacity: 1;
@@ -1178,5 +1224,43 @@ h1 span {
   .mic-section {
     bottom: 10%; /* Move mic button up on phone */
   }
+}
+
+/* --- MISSING BUTTERFLY PARTS & ANIMATIONS --- */
+.butterfly .body {
+  position: absolute;
+  left: 13.5px;
+  top: 5px;
+  width: 3px;
+  height: 20px;
+  background: #333;
+  border-radius: 5px;
+  z-index: 2;
+}
+.butterfly .antenna-left,
+.butterfly .antenna-right {
+  position: absolute;
+  width: 1px;
+  height: 10px;
+  background: #333;
+  top: -5px;
+}
+.butterfly .antenna-left {
+  left: 12px;
+  transform: rotate(-30deg);
+}
+.butterfly .antenna-right {
+  left: 17px;
+  transform: rotate(30deg);
+}
+
+@keyframes flapLeft {
+  0% { transform: scaleX(1); }
+  100% { transform: scaleX(0.1); }
+}
+
+@keyframes flapRight {
+  0% { transform: scaleX(1); }
+  100% { transform: scaleX(0.1); }
 }
 

@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const namePlate = document.querySelector('.name-plate');
   const nextBtn = document.querySelector('.btn-next');
 
+  // Background balloons
+  createBgBalloons();
+
   // Animation Timeline
   // 1. Background is visible
   // 2. Garlands drop immediately via CSS animation with 0.5s delay
@@ -357,4 +360,123 @@ function triggerConfetti() {
   setTimeout(() => {
     container.innerHTML = '';
   }, 4000);
+}
+
+function createBgBalloons() {
+  const scene = document.getElementById('birthday-scene');
+  const colors = ['#ffa7c4', '#ff7da9', '#FFF2D1', '#904C77'];
+  
+  // Create 15 background balloons
+  for (let i = 0; i < 15; i++) {
+    const b = document.createElement('div');
+    b.classList.add('bg-balloon');
+    
+    // Randomize properties
+    const left = Math.random() * 100;
+    const delay = Math.random() * 10;
+    const duration = 15 + Math.random() * 15; // 15s to 30s
+    const width = 40 + Math.random() * 50; // 40px to 90px
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    
+    b.style.left = left + 'vw';
+    b.style.animationDuration = duration + 's';
+    b.style.animationDelay = delay + 's';
+    b.style.width = width + 'px';
+    b.style.height = (width * 1.3) + 'px'; // proportional height
+    
+    b.innerHTML = `
+      <svg viewBox="0 0 100 150" style="width: 100%; height: 100%;">
+        <path d="M50 10 C 15 10, 15 60, 50 85 C 85 60, 85 10, 50 10" fill="${color}" stroke="none"/>
+        <path d="M45 85 L 55 85 L 50 93 Z" fill="${color}" stroke="none"/>
+        <path d="M50 93 Q 40 120, 60 150" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="2"/>
+      </svg>
+    `;
+    
+    scene.appendChild(b);
+  }
+}
+
+function createButterflies() {
+  const scene = document.getElementById('birthday-scene');
+  const colors = ['#ffa7c4', '#ff7da9', '#f4a7c1', '#FFF2D1', '#904C77'];
+  
+  // Create 8 butterflies for a constant flying effect
+  for (let i = 0; i < 8; i++) {
+    const b = document.createElement('div');
+    b.classList.add('butterfly');
+    
+    // Choose a random color
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    b.style.setProperty('--butterfly-color', color);
+    
+    // Create elements
+    b.innerHTML = `
+      <div class="wing wing-left"></div>
+      <div class="wing wing-right"></div>
+      <div class="body"></div>
+      <div class="antenna-left"></div>
+      <div class="antenna-right"></div>
+    `;
+    
+    scene.appendChild(b);
+    
+    // Initial random position
+    let x = Math.random() * window.innerWidth;
+    let y = Math.random() * window.innerHeight;
+    b.style.left = x + 'px';
+    b.style.top = y + 'px';
+
+    function flyToNextPoint() {
+      // Generate random next point
+      let nextX = Math.random() * window.innerWidth;
+      let nextY = Math.random() * window.innerHeight;
+      
+      // Calculate angle for rotation
+      let dx = nextX - x;
+      let dy = nextY - y;
+      let angle = Math.atan2(dy, dx) * 180 / Math.PI;
+      // Add 90 degrees because the CSS butterfly points upwards natively
+      angle += 90;
+      
+      // Calculate distance to determine duration for consistent speed
+      let dist = Math.sqrt(dx*dx + dy*dy);
+      let duration = (dist / 100) * 1000; // 100 pixels per second
+      
+      // Give it at least 2 seconds minimum to look natural
+      if (duration < 2000) duration = 2000 + Math.random() * 2000;
+
+      // Animate using Web Animations API
+      if (b.animate) {
+        b.animate([
+          { transform: `translate(0px, 0px) rotate(${angle}deg)` },
+          { transform: `translate(${dx}px, ${dy}px) rotate(${angle}deg)` }
+        ], {
+          duration: duration,
+          easing: 'ease-in-out',
+          fill: 'forwards'
+        }).onfinish = () => {
+          // Update actual coordinates for the next flight segment
+          x = nextX;
+          y = nextY;
+          b.style.left = x + 'px';
+          b.style.top = y + 'px';
+          flyToNextPoint();
+        };
+      } else {
+        // Fallback for browsers without WAAPI (though very rare now)
+        b.style.transition = `left ${duration}ms ease-in-out, top ${duration}ms ease-in-out, transform 500ms ease`;
+        b.style.left = nextX + 'px';
+        b.style.top = nextY + 'px';
+        b.style.transform = `rotate(${angle}deg)`;
+        setTimeout(() => {
+          x = nextX;
+          y = nextY;
+          flyToNextPoint();
+        }, duration);
+      }
+    }
+    
+    // Start sequence with a slight random delay
+    setTimeout(flyToNextPoint, Math.random() * 2000);
+  }
 }
