@@ -384,6 +384,16 @@
       navbar.classList.remove('scrolled');
     }
 
+    // Hide scroll indicator after scrolling past hero
+    const scrollIndicator = document.getElementById('scroll-indicator');
+    if (scrollIndicator) {
+      if (currentScroll > 150) {
+        scrollIndicator.classList.add('hidden');
+      } else {
+        scrollIndicator.classList.remove('hidden');
+      }
+    }
+
     lastScroll = currentScroll;
   }, { passive: true });
 
