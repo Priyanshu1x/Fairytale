@@ -1,11 +1,11 @@
 /* birthday.js */
 document.addEventListener('DOMContentLoaded', () => {
   const letters = document.querySelectorAll('.happy-text span, .birthday-text span');
-  const datePill = document.querySelector('.date-pill');
+  const datePillWrapper = document.querySelector('.date-pill-wrapper');
   const balloons = document.querySelectorAll('.balloon');
   const cap = document.querySelector('.birthday-cap');
   const frame = document.querySelector('.frame');
-  const namePlate = document.querySelector('.name-plate');
+  const namePlateWrapper = document.querySelector('.name-plate-wrapper');
   const nextBtn = document.querySelector('.btn-next');
 
   // Background balloons
@@ -93,13 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 7. Date, name plate, Next button appear smoothly
   setTimeout(() => {
-    datePill.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-    datePill.style.opacity = '1';
-    datePill.style.transform = 'translateY(0)';
+    datePillWrapper.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    datePillWrapper.style.opacity = '1';
+    datePillWrapper.style.transform = 'translateY(0)';
     
-    namePlate.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-    namePlate.style.opacity = '1';
-    namePlate.style.transform = 'translateY(0)';
+    namePlateWrapper.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    namePlateWrapper.style.opacity = '1';
+    namePlateWrapper.style.transform = 'translateY(0)';
   }, delay);
 
   setTimeout(() => {
