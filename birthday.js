@@ -11,6 +11,50 @@ document.addEventListener('DOMContentLoaded', () => {
   // Background balloons
   createBgBalloons();
 
+  // Background Music — start at silence and fade in slowly
+  const birthdayBgMusic = document.getElementById('birthday-bg-music');
+  if (birthdayBgMusic) {
+    birthdayBgMusic.volume = 0;
+    birthdayBgMusic.play().then(() => {
+      // Smooth fade-in from 0 to 0.35 over ~4 seconds
+      let currentVol = 0;
+      const targetVol = 0.35;
+      const fadeStep = 0.005;     // tiny increments for ultra-smooth rise
+      const fadeInterval = setInterval(() => {
+        currentVol += fadeStep;
+        if (currentVol >= targetVol) {
+          birthdayBgMusic.volume = targetVol;
+          clearInterval(fadeInterval);
+        } else {
+          birthdayBgMusic.volume = currentVol;
+        }
+      }, 60); // 0.005 every 60ms ≈ 4.2s to reach 0.35
+    }).catch((e) => {
+      console.log('Birthday music autoplay blocked:', e);
+      // Fallback: play on first user interaction
+      const playOnInteraction = () => {
+        birthdayBgMusic.volume = 0;
+        birthdayBgMusic.play().then(() => {
+          let currentVol = 0;
+          const targetVol = 0.35;
+          const fadeInterval = setInterval(() => {
+            currentVol += 0.005;
+            if (currentVol >= targetVol) {
+              birthdayBgMusic.volume = targetVol;
+              clearInterval(fadeInterval);
+            } else {
+              birthdayBgMusic.volume = currentVol;
+            }
+          }, 60);
+        }).catch(() => {});
+        document.removeEventListener('click', playOnInteraction);
+        document.removeEventListener('touchstart', playOnInteraction);
+      };
+      document.addEventListener('click', playOnInteraction, { once: false });
+      document.addEventListener('touchstart', playOnInteraction, { once: false });
+    });
+  }
+
   // Animation Timeline
   // 1. Background is visible
   // 2. Garlands drop immediately via CSS animation with 0.5s delay
