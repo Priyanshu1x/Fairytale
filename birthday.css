@@ -273,8 +273,8 @@ h1 span {
   width: 85%;
   height: 85%;
   object-fit: contain;
-  mix-blend-mode: multiply;
   z-index: 2;
+  transition: transform 0.3s;
 }
 
 /* Sparkles inside the circle */
@@ -782,7 +782,7 @@ h1 span {
     order: 5;
     bottom: auto;
     left: auto;
-    transform: none;
+    transform: translateY(-20px);
     margin-top: 5px;
   }
   .btn-next {
@@ -965,13 +965,14 @@ h1 span {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  /* Night sky gradient */
-  background: linear-gradient(to bottom, #1B1236 0%, #351A4C 40%, #5F2E6C 70%, #904C77 100%);
+  /* Background with image and slight dark overlay for text readability */
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('assets/desktop_candle_bg.png') center center / cover no-repeat;
   transition: opacity 1.5s ease-in-out;
 }
 
 /* Background Elements */
 .sky-elements {
+  display: none; /* Hide old CSS sky elements */
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
@@ -1031,10 +1032,10 @@ h1 span {
 }
 
 .skyline {
+  display: none; /* Hide old css skyline as we are using image background now */
   position: absolute;
   bottom: 0; left: 0; width: 100%;
   height: 20%;
-  display: flex;
   align-items: flex-end;
   justify-content: space-around;
   z-index: 2;
@@ -1117,53 +1118,145 @@ h1 span {
   display: flex;
   flex-direction: column;
   align-items: center;
-  filter: drop-shadow(0 15px 15px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 12px 30px rgba(0,0,0,0.25));
 }
 .layer {
-  background: var(--pink-light);
-  border-radius: 10px;
   position: relative;
   display: flex;
   justify-content: center;
+  overflow: visible;
 }
+
+/* --- Top Tier: cute pastel pink sponge --- */
 .layer-top {
-  width: clamp(120px, 30vw, 200px);
-  height: clamp(60px, 15vw, 100px);
-  z-index: 3;
+  width: clamp(130px, 28vw, 220px);
+  height: clamp(60px, 13vw, 95px);
+  background: linear-gradient(180deg, #ffc8dc 0%, #ffb0cc 40%, #ffa0c0 100%);
+  border-radius: 20px 20px 16px 16px;
+  z-index: 6;
   transition: transform 1.5s ease-in-out;
+  box-shadow:
+    inset 0 3px 8px rgba(255,255,255,0.5),
+    inset 0 -5px 10px rgba(0,0,0,0.06),
+    0 4px 8px rgba(0,0,0,0.1);
 }
 .layer-top.open {
   transform: translateY(-80px) rotate(-10deg);
 }
-.layer-bottom {
-  width: clamp(160px, 40vw, 260px);
-  height: clamp(80px, 20vw, 120px);
-  background: var(--pink-main);
-  z-index: 2;
-  margin-top: -10px;
-}
-.frosting {
+
+/* Top tier cream frosting with drips */
+.layer-top .frosting {
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 20px;
-  background: #FFF;
-  border-radius: 10px 10px 20px 20px;
+  top: -6px; left: -5px; right: -5px;
+  height: 18px;
+  background: linear-gradient(180deg, #fffdf6 0%, #fff5e8 100%);
+  border-radius: 20px 20px 50% 50%;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.05);
+  z-index: 2;
 }
+.layer-top .frosting::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 5%; right: 5%;
+  height: 18px;
+  background:
+    radial-gradient(ellipse 10px 14px at 12% 0%, #fffdf6 7px, transparent 8px),
+    radial-gradient(ellipse 8px 11px at 30% 0%, #fffdf6 6px, transparent 7px),
+    radial-gradient(ellipse 11px 16px at 52% 0%, #fffdf6 8px, transparent 9px),
+    radial-gradient(ellipse 9px 13px at 72% 0%, #fffdf6 7px, transparent 8px),
+    radial-gradient(ellipse 10px 12px at 90% 0%, #fffdf6 7px, transparent 8px);
+}
+/* Subtle shine highlight on top tier */
+.layer-top::after {
+  content: '';
+  position: absolute;
+  top: 12px; left: 15%; right: 15%;
+  height: 5px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 10px;
+  z-index: 1;
+}
+
+/* --- Bottom Tier: deeper pastel pink sponge --- */
+.layer-bottom {
+  width: clamp(170px, 38vw, 290px);
+  height: clamp(75px, 17vw, 115px);
+  background: linear-gradient(180deg, #ffb5cc 0%, #ff9ab8 40%, #ff85aa 100%);
+  border-radius: 22px;
+  z-index: 5;
+  margin-top: -6px;
+  box-shadow:
+    inset 0 3px 8px rgba(255,255,255,0.4),
+    inset 0 -6px 12px rgba(0,0,0,0.08),
+    0 8px 16px rgba(0,0,0,0.12);
+}
+/* Bottom tier cream frosting with drips */
+.layer-bottom .frosting {
+  position: absolute;
+  top: -6px; left: -5px; right: -5px;
+  height: 18px;
+  background: linear-gradient(180deg, #fffdf6 0%, #fff5e8 100%);
+  border-radius: 22px 22px 50% 50%;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.05);
+  z-index: 2;
+}
+.layer-bottom .frosting::after {
+  content: '';
+  position: absolute;
+  bottom: -14px;
+  left: 3%; right: 3%;
+  height: 20px;
+  background:
+    radial-gradient(ellipse 11px 16px at 8% 0%, #fffdf6 8px, transparent 9px),
+    radial-gradient(ellipse 9px 12px at 22% 0%, #fffdf6 7px, transparent 8px),
+    radial-gradient(ellipse 12px 18px at 38% 0%, #fffdf6 9px, transparent 10px),
+    radial-gradient(ellipse 8px 11px at 50% 0%, #fffdf6 6px, transparent 7px),
+    radial-gradient(ellipse 11px 15px at 65% 0%, #fffdf6 8px, transparent 9px),
+    radial-gradient(ellipse 9px 13px at 80% 0%, #fffdf6 7px, transparent 8px),
+    radial-gradient(ellipse 10px 14px at 95% 0%, #fffdf6 7px, transparent 8px);
+}
+/* Subtle shine highlight on bottom tier */
+.layer-bottom::after {
+  content: '';
+  position: absolute;
+  top: 14px; left: 12%; right: 12%;
+  height: 5px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 10px;
+  z-index: 1;
+}
+
+/* Soft shadow puddle under the whole cake */
+.cake::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 15%; right: 15%;
+  height: 12px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* Heart decorations */
 .heart-deco {
   position: absolute;
-  color: #d32f2f;
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(0.6rem, 1.5vw, 0.9rem);
+  opacity: 0.9;
+  z-index: 3;
 }
-.deco-1 { top: 30%; left: 20%; }
-.deco-2 { top: 40%; right: 25%; }
-.deco-3 { top: 35%; left: 15%; }
-.deco-4 { top: 50%; left: 45%; }
-.deco-5 { top: 30%; right: 20%; }
+.deco-1 { top: 38%; left: 20%; color: #fff; }
+.deco-2 { top: 42%; right: 22%; color: #fff; }
+.deco-3 { top: 35%; left: 15%; color: #e84b80; }
+.deco-4 { top: 52%; left: 50%; color: #fff; font-size: clamp(0.4rem, 1vw, 0.6rem); }
+.deco-5 { top: 35%; right: 18%; color: #e84b80; }
 
 /* Candle and Flame */
 .candle {
   position: absolute;
-  top: -40px;
-  width: 15px; height: 50px;
+  top: -42px;
+  width: 14px; height: 48px;
   background: repeating-linear-gradient(
     45deg,
     #fff,
@@ -1171,8 +1264,9 @@ h1 span {
     #ff7da9 5px,
     #ff7da9 10px
   );
-  border-radius: 5px;
-  z-index: 4;
+  border-radius: 6px 6px 4px 4px;
+  z-index: 8;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .flame {
   position: absolute;
@@ -1219,6 +1313,113 @@ h1 span {
 @keyframes riseSmoke {
   0% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
   100% { opacity: 0; transform: translateX(-80%) translateY(-50px) scale(3); }
+}
+
+/* ============================
+   PEEKING CHARACTERS (Eren & Mikasa)
+   
+   Positioned RELATIVE to cake edges:
+   - left: 0 / right: 0 = cake container edge
+   - translateX(-68% / 68%) = how much peeks out
+   - z-index 1 = behind cake layers (5-6)
+   - Cake covers their body; only head+hands+shoulder visible
+============================ */
+.character-peek {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.peek-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Eren: LEFT side of cake.
+   left:0 = cake left edge, translateX(-68%) pushes 68% outside (visible face+hands) */
+.eren-peek {
+  width: clamp(85px, 18vw, 140px);
+  left: 0;
+  top: 5px;
+  transform: translateX(-68%);
+}
+
+.eren-peek.slide-out {
+  opacity: 1;
+  animation: slideOutEren 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes slideOutEren {
+  0%   { transform: translateX(-10%); opacity: 0; }
+  25%  { opacity: 1; }
+  75%  { transform: translateX(-72%); }
+  100% { transform: translateX(-68%); opacity: 1; }
+}
+
+/* Mikasa: RIGHT side of cake.
+   right:0 = cake right edge, translateX(68%) pushes 68% outside */
+.mikasa-peek {
+  width: clamp(85px, 18vw, 140px);
+  right: 0;
+  top: 5px;
+  transform: translateX(68%);
+}
+
+.mikasa-peek.slide-out {
+  opacity: 1;
+  animation: slideOutMikasa 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes slideOutMikasa {
+  0%   { transform: translateX(10%); opacity: 0; }
+  25%  { opacity: 1; }
+  75%  { transform: translateX(72%); }
+  100% { transform: translateX(68%); opacity: 1; }
+}
+
+/* --- Idle Floating --- */
+.eren-peek.idle {
+  opacity: 1;
+  left: 0;
+  top: 5px;
+  animation: idleFloatEren 3s ease-in-out infinite;
+}
+@keyframes idleFloatEren {
+  0%, 100% { transform: translateX(-68%) translateY(0); }
+  50%      { transform: translateX(-68%) translateY(-5px); }
+}
+
+.mikasa-peek.idle {
+  opacity: 1;
+  right: 0;
+  top: 5px;
+  animation: idleFloatMikasa 3.2s ease-in-out infinite;
+}
+@keyframes idleFloatMikasa {
+  0%, 100% { transform: translateX(68%) translateY(0); }
+  50%      { transform: translateX(68%) translateY(-5px); }
+}
+
+/* --- Simulated Blink --- */
+.peek-img.blink {
+  animation: blinkEyes 0.15s ease-in-out;
+}
+@keyframes blinkEyes {
+  0%   { transform: scaleY(1); }
+  50%  { transform: scaleY(0.92); }
+  100% { transform: scaleY(1); }
+}
+
+/* --- MOBILE ADJUSTMENTS --- */
+@media (orientation: portrait), (max-width: 768px) {
+  .eren-peek,
+  .mikasa-peek {
+    width: clamp(60px, 20vw, 110px);
+    top: 3px;
+  }
 }
 
 /* Mic Section */
@@ -1324,68 +1525,66 @@ h1 span {
 }
 
 .envelope {
-  width: 80px;
-  height: 50px;
-  background: #FFE5F1;
   position: relative;
-  border-radius: 4px;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2), 0 0 15px rgba(255,167,196,0.5);
   transition: transform 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .envelope-container:hover .envelope {
   transform: scale(1.05);
 }
-.envelope-flap {
-  position: absolute;
-  top: 0; left: 0;
-  width: 0; height: 0;
-  border-left: 40px solid transparent;
-  border-right: 40px solid transparent;
-  border-top: 30px solid #FFA7C4;
-  transform-origin: top center;
-  transition: transform 1s ease-in-out;
-  z-index: 3;
-}
-.envelope-body {
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 0; height: 0;
-  border-left: 40px solid #F4D9F6;
-  border-right: 40px solid #F4D9F6;
-  border-bottom: 25px solid #FF7DA9;
+
+.aot-envelope-img {
+  width: clamp(180px, 45vw, 220px);
+  height: auto;
+  object-fit: contain;
+  position: relative;
   z-index: 2;
+  filter: drop-shadow(0 8px 15px rgba(0,0,0,0.25));
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s;
 }
-.envelope-seal {
+
+.envelope-glow {
   position: absolute;
-  top: 15px; left: 50%;
-  transform: translateX(-50%);
-  color: #D32F2F;
-  font-size: 1.2rem;
-  z-index: 4;
-  transition: transform 0.5s, opacity 0.5s;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(255, 167, 196, 0.6) 0%, rgba(255, 167, 196, 0) 70%);
+  z-index: 1;
+  pointer-events: none;
+  animation: pulseGlow 2s infinite alternate;
+}
+
+/* Particles for burst effect */
+.seal-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #ff7da9;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 20;
+  opacity: 1;
 }
 
 /* Opening sequence classes */
 .envelope-container.opening {
   animation: none; /* stop floating */
-  transform: translateY(-130px) scale(1.2);
   pointer-events: none;
 }
 .envelope-container.opening .envelope-text {
   opacity: 0;
 }
-.envelope-container.opening .envelope-seal {
-  animation: sealBreak 0.8s forwards;
+.envelope-container.opening .aot-envelope-img {
+  transform: scale(1.15) translateY(-10px);
+  opacity: 0;
+  transition-delay: 0.5s; /* Fade out after burst */
 }
-@keyframes sealBreak {
-  0% { transform: translateX(-50%) scale(1); opacity: 1; filter: drop-shadow(0 0 5px #ff7da9); }
-  50% { transform: translateX(-50%) scale(1.5); opacity: 1; filter: drop-shadow(0 0 15px #ff7da9); }
-  100% { transform: translateX(-50%) scale(2); opacity: 0; filter: drop-shadow(0 0 20px #ff7da9); }
-}
-.envelope-container.opening .envelope-flap {
-  transition-delay: 0.8s;
-  transform: rotateX(180deg);
-  z-index: 1; /* drops behind paper */
+.envelope-container.opening .envelope-glow {
+  opacity: 0;
+  transition: opacity 0.5s;
 }
 
 /* Scene 3: Open Letter */
@@ -1471,15 +1670,35 @@ h1 span {
   max-width: 450px;
   height: 75%;
   max-height: 600px;
-  background: #FFF9F0; /* Soft cream */
-  border-radius: 8px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-  padding: 35px 25px;
+  background: url('assets/letter_bg.png') center/cover no-repeat;
+  background-color: #F3E8D5; /* Vintage parchment base */
+  background-blend-mode: multiply; /* Darkens brights, neutralizes pinks, brings out watermark */
+  filter: brightness(0.85) contrast(1.05); /* Reduce brightness, cinematic contrast */
+  border-radius: 6px;
+  /* Aged paper edges + drop shadow + soft moonlit glow */
+  box-shadow: 
+    inset 0 0 60px rgba(70, 50, 30, 0.4),
+    inset 0 0 15px rgba(50, 30, 20, 0.3),
+    0 20px 50px rgba(0,0,0,0.6),
+    0 0 40px rgba(200, 220, 255, 0.15);
+  padding: 40px 30px;
   box-sizing: border-box;
   overflow-y: auto;
   transform: translateY(100px) scale(0.8);
   opacity: 0;
   transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.5s ease;
+}
+
+/* Subtle paper grain texture overlay */
+.letter-paper::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+  opacity: 0.15;
+  mix-blend-mode: overlay;
+  z-index: 0;
 }
 .letter-paper::-webkit-scrollbar {
   width: 6px;
@@ -1497,18 +1716,21 @@ h1 span {
 }
 
 .letter-content {
+  position: relative;
+  z-index: 1; /* Keep above grain overlay */
   font-family: 'Quicksand', sans-serif;
   font-weight: 500;
   font-size: 1.1rem;
   line-height: 1.7;
-  letter-spacing: 0.2px;
-  color: #4A3B43;
+  letter-spacing: 0.3px;
+  color: #3b2a22; /* Darker, warmer ink color */
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2); /* Enhance readability */
 }
 .letter-title {
   font-family: 'Dancing Script', cursive;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 700;
-  color: #D32F2F;
+  color: #8c3b3b; /* Faded vintage red/burgundy instead of bright red */
   display: block;
 }
 
@@ -1593,6 +1815,9 @@ h1 span {
 
 /* --- MOBILE SPECIFIC FIXES FOR CAKE SCENE --- */
 @media (orientation: portrait), (max-width: 768px) {
+  #cake-scene {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('assets/mobile_candle_bg.png') top right / cover no-repeat;
+  }
   .cake-container {
     bottom: 28%; /* Move cake up on phone */
   }

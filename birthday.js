@@ -131,6 +131,8 @@ function startCakeSequence() {
   const cakeWrapper = document.querySelector('.cake-bounce-wrapper');
   const storyTexts = document.querySelectorAll('.story-text');
   const micSection = document.querySelector('.mic-section');
+  const erenPeek = document.getElementById('eren-peek');
+  const mikasaPeek = document.getElementById('mikasa-peek');
   
   let delay = 500;
   
@@ -139,9 +141,41 @@ function startCakeSequence() {
     cakeWrapper.classList.add('visible');
   }, delay);
   
+  // Cake rise animation takes 1500ms
+  const cakeRiseDone = delay + 1500;
+  
+  // 2. Eren slides out 0.4s after cake finishes rising
+  const erenSlideTime = cakeRiseDone + 400;
+  setTimeout(() => {
+    erenPeek.classList.add('slide-out');
+  }, erenSlideTime);
+  
+  // 3. Mikasa slides out 0.15s after Eren
+  const mikasaSlideTime = erenSlideTime + 150;
+  setTimeout(() => {
+    mikasaPeek.classList.add('slide-out');
+  }, mikasaSlideTime);
+  
+  // 4. Switch to idle floating after slide-out animations finish (0.8s each)
+  const erenIdleTime = erenSlideTime + 800;
+  setTimeout(() => {
+    erenPeek.classList.remove('slide-out');
+    erenPeek.classList.add('idle');
+  }, erenIdleTime);
+  
+  const mikasaIdleTime = mikasaSlideTime + 800;
+  setTimeout(() => {
+    mikasaPeek.classList.remove('slide-out');
+    mikasaPeek.classList.add('idle');
+  }, mikasaIdleTime);
+  
+  // 5. Start random blinking for both characters
+  startCharacterBlinking(erenPeek, erenIdleTime);
+  startCharacterBlinking(mikasaPeek, mikasaIdleTime);
+  
   delay += 1500;
   
-  // 2. Story text sequence
+  // 6. Story text sequence
   storyTexts.forEach((text, index) => {
     setTimeout(() => {
       text.classList.add('visible');
@@ -149,11 +183,34 @@ function startCakeSequence() {
     delay += 1500;
   });
   
-  // 3. Show Mic Section
+  // 7. Show Mic Section
   setTimeout(() => {
     micSection.classList.add('visible');
     initMicrophone();
   }, delay + 500);
+}
+
+// Random blinking effect for character PNGs
+function startCharacterBlinking(characterEl, startAfterMs) {
+  setTimeout(() => {
+    const img = characterEl.querySelector('.peek-img');
+    if (!img) return;
+    
+    function triggerBlink() {
+      img.classList.add('blink');
+      setTimeout(() => {
+        img.classList.remove('blink');
+      }, 150);
+      
+      // Schedule next blink randomly between 2-5 seconds
+      const nextBlink = 2000 + Math.random() * 3000;
+      setTimeout(triggerBlink, nextBlink);
+    }
+    
+    // First blink after a short random delay
+    const firstBlink = 1000 + Math.random() * 2000;
+    setTimeout(triggerBlink, firstBlink);
+  }, startAfterMs);
 }
 
 function initMicrophone() {
@@ -266,6 +323,7 @@ function triggerSuccess(stream, jsNode, audioContext) {
     layerTop.classList.add('open');
     setTimeout(() => {
       envelopeContainer.classList.add('visible');
+      startEnvelopeIdleEffects(envelopeContainer);
     }, 500);
   }, 6000);
   
@@ -273,6 +331,8 @@ function triggerSuccess(stream, jsNode, audioContext) {
   document.getElementById('envelope-container').addEventListener('click', () => {
     if (!envelopeContainer.classList.contains('opening')) {
       envelopeContainer.classList.add('opening');
+      
+      triggerEnvelopeBurst(envelopeContainer);
       
       // Wait for the envelope opening animation, then show letter scene
       setTimeout(() => {
@@ -299,6 +359,108 @@ function triggerSuccess(stream, jsNode, audioContext) {
   document.querySelector('.letter-overlay').addEventListener('click', () => {
     document.getElementById('letter-scene').classList.remove('active');
   });
+}
+
+function startEnvelopeIdleEffects(container) {
+  // Spawn sparkles and feathers periodically while it is not opening
+  const effectInterval = setInterval(() => {
+    if (container.classList.contains('opening')) {
+      clearInterval(effectInterval);
+      return;
+    }
+    
+    // Spawn a golden sparkle
+    if (Math.random() > 0.4) {
+      const sparkle = document.createElement('div');
+      sparkle.style.position = 'absolute';
+      sparkle.style.width = '4px';
+      sparkle.style.height = '4px';
+      sparkle.style.background = '#FFD700';
+      sparkle.style.borderRadius = '50%';
+      sparkle.style.boxShadow = '0 0 5px #FFD700, 0 0 10px #FF8C00';
+      sparkle.style.left = (Math.random() * 140 - 20) + '%';
+      sparkle.style.top = (Math.random() * 140 - 20) + '%';
+      sparkle.style.opacity = '0';
+      sparkle.style.pointerEvents = 'none';
+      sparkle.style.transition = 'all 1.5s ease-out';
+      container.appendChild(sparkle);
+      
+      setTimeout(() => {
+        sparkle.style.opacity = '1';
+        sparkle.style.transform = `translateY(-20px) scale(${1 + Math.random()})`;
+      }, 50);
+      
+      setTimeout(() => {
+        sparkle.style.opacity = '0';
+        setTimeout(() => sparkle.remove(), 1500);
+      }, 1500);
+    }
+    
+    // Spawn a feather
+    if (Math.random() > 0.7) {
+      const feather = document.createElement('div');
+      feather.innerHTML = '🪶';
+      feather.style.position = 'absolute';
+      feather.style.fontSize = '20px';
+      feather.style.filter = 'brightness(0) invert(1) opacity(0.8)'; // Make it white
+      feather.style.left = (Math.random() * 120 - 10) + '%';
+      feather.style.top = (Math.random() * 120 - 10) + '%';
+      feather.style.opacity = '0';
+      feather.style.pointerEvents = 'none';
+      feather.style.transition = 'all 2.5s ease-out';
+      container.appendChild(feather);
+      
+      setTimeout(() => {
+        feather.style.opacity = '1';
+        feather.style.transform = `translateY(${Math.random() * 40 - 20}px) rotate(${Math.random() * 90 - 45}deg)`;
+      }, 50);
+      
+      setTimeout(() => {
+        feather.style.opacity = '0';
+        setTimeout(() => feather.remove(), 2500);
+      }, 2000);
+    }
+  }, 400);
+}
+
+function triggerEnvelopeBurst(container) {
+  // Center of envelope
+  const rect = container.getBoundingClientRect();
+  const centerX = container.offsetWidth / 2;
+  const centerY = container.offsetHeight / 2;
+  
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'seal-particle';
+    
+    // Pink particle or feather
+    const isFeather = Math.random() > 0.8;
+    if (isFeather) {
+      p.innerHTML = '🪶';
+      p.style.background = 'transparent';
+      p.style.fontSize = '18px';
+      p.style.filter = 'brightness(0) invert(1)';
+    }
+    
+    p.style.left = centerX + 'px';
+    p.style.top = centerY + 'px';
+    container.appendChild(p);
+    
+    const angle = Math.random() * Math.PI * 2;
+    const velocity = 60 + Math.random() * 120;
+    const tx = Math.cos(angle) * velocity;
+    const ty = Math.sin(angle) * velocity;
+    
+    p.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    
+    // Wait a tick for transition to register
+    requestAnimationFrame(() => {
+      p.style.transform = `translate(${tx}px, ${ty}px) rotate(${Math.random() * 360}deg) scale(${isFeather ? 1 : 0.2})`;
+      p.style.opacity = '0';
+    });
+    
+    setTimeout(() => p.remove(), 800);
+  }
 }
 
 const letterLines = [

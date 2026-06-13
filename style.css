@@ -1360,6 +1360,11 @@ ul, ol {
     padding: 14px 24px;
   }
 
+  .scroll-indicator {
+    margin-top: -100px; /* Pulls it up closer to the buttons */
+    transform: translateY(-10px);
+  }
+
   /* Memories Section */
   .memories-section {
     padding: 10px 5% 60px;
